@@ -167,3 +167,7 @@ html[data-theme="dark"] .technology-card{background:var(--surface-soft)}
 @media(max-width:760px){.video-toggle{right:7vw;bottom:56px}}
 @media(max-width:520px){.hero-specialty{font-size:9px;margin-top:10px}.video-toggle{right:23px;bottom:48px;padding:7px 9px;font-size:7px}.hero-content{animation-duration:.6s}}
 @media(prefers-reduced-motion:reduce){.hero-content{animation:none}.hero-background{transition:none;transform:scale(1.015)}.hero-specialty i{animation:none}.rotating-skill{transition:none}.project-card.scroll-reveal.is-visible:hover{transform:none}.technology-card:hover .technology-logo{transform:none}}
+
+/* Contrôle vidéo compact, sans libellé visible. */
+.video-toggle{width:38px;height:38px;justify-content:center;padding:0}
+@media(max-width:520px){.video-toggle{width:34px;height:34px;padding:0}}

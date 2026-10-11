@@ -2,6 +2,11 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.0.2] - 2026-10-11
+
+### Modifié
+- Allègement de l’accueil : retrait des libellés de marque, de l’accroche stack, du titre descriptif et de la signature datée. Le contrôle vidéo reste disponible sous forme d’icône accessible.
+
 ## [1.0.1] - 2026-10-11
 
 ### Corrigé
