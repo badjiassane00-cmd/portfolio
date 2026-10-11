@@ -2,6 +2,16 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.0.4] - 2026-10-11
+
+### Ajouté
+- Configuration Render Blueprint pour déployer le portfolio en site statique depuis `main`.
+- Version Node fixée à 24.21.0 pour correspondre aux prérequis de Vite 8.
+
+### Corrigé
+- Assets déplacés dans `public/assets` afin que Vite les copie dans le build de production.
+- Typage sécurisé des mots animés pour que la vérification TypeScript passe.
+
 ## [1.0.3] - 2026-10-11
 
 ### Modifié

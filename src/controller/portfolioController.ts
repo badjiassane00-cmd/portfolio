@@ -90,7 +90,7 @@ export function initPortfolioController(): void {
   videoToggle?.addEventListener('click', () => { if (!video) return; if (video.paused) void video.play().catch(syncVideoControl); else video.pause(); });
 
   const skill = document.querySelector<HTMLElement>('.rotating-skill');
-  const words = skill?.dataset.words.split('|') ?? [];
+  const words = (skill?.dataset.words ?? '').split('|');
   if (skill && words.length > 1 && !reducedMotion) {
     let index = 0;
     window.setInterval(() => { skill.classList.add('is-changing'); window.setTimeout(() => { index = (index + 1) % words.length; if (skill.isConnected) skill.textContent = words[index] ?? ''; skill.classList.remove('is-changing'); }, 220); }, 2600);
