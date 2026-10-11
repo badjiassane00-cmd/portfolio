@@ -13,8 +13,8 @@ export interface Project {
   url: string;
   repository?: string;
   description: string;
-  visual: 'terra' | 'patrimoine' | 'find';
-  label: string;
+  visual: 'terra' | 'patrimoine' | 'prestalink';
+  image: string;
 }
 
 export const technologyGroups: TechnologyGroup[] = [
@@ -29,7 +29,7 @@ export const technologyGroups: TechnologyGroup[] = [
 ];
 
 export const projects: Project[] = [
-  { name: 'TERRA', url: 'https://terra-web-avn6.onrender.com/', repository: 'https://github.com/badjiassane00-cmd/TERRA', description: 'Découvrez le projet TERRA directement dans son environnement en ligne.', visual: 'terra', label: 'TERRA' },
-  { name: 'Patrimoine', url: 'https://patrimoine-5o5f.onrender.com/', repository: 'https://github.com/badjiassane00-cmd/patrimoine', description: 'Parcourez l’expérience Patrimoine et découvrez le projet en ligne.', visual: 'patrimoine', label: 'Patrimoine' },
-  { name: 'Find', url: 'https://find-3nmq.onrender.com/', description: 'Ouvrez Find pour découvrir le projet et son expérience en ligne.', visual: 'find', label: 'find.' },
+  { name: 'TERRA', url: 'https://terra-web-avn6.onrender.com/', repository: 'https://github.com/badjiassane00-cmd/TERRA', description: 'Découvrez le projet TERRA directement dans son environnement en ligne.', visual: 'terra', image: '/assets/projects/terra.webp' },
+  { name: 'Patrimoine', url: 'https://patrimoine-5o5f.onrender.com/', repository: 'https://github.com/badjiassane00-cmd/patrimoine', description: 'Parcourez l’expérience Patrimoine et découvrez le projet en ligne.', visual: 'patrimoine', image: '/assets/projects/patrimoine.webp' },
+  { name: 'PrestaLink', url: 'https://find-3nmq.onrender.com/', description: 'Mise en relation avec des artisans et prestataires certifiés au Sénégal.', visual: 'prestalink', image: '/assets/projects/find.webp' },
 ];

@@ -2,6 +2,13 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.0.3] - 2026-10-11
+
+### Modifié
+- Photo de contact affichée en couleurs et avec une meilleure visibilité, y compris sur mobile.
+- Vignettes des projets remplacées par des captures optimisées des déploiements TERRA, Patrimoine et PrestaLink.
+- Carte du projet PrestaLink renommée pour correspondre à la marque affichée sur son site.
+
 ## [1.0.2] - 2026-10-11
 
 ### Modifié

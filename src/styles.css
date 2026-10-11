@@ -171,3 +171,21 @@ html[data-theme="dark"] .technology-card{background:var(--surface-soft)}
 /* Contrôle vidéo compact, sans libellé visible. */
 .video-toggle{width:38px;height:38px;justify-content:center;padding:0}
 @media(max-width:520px){.video-toggle{width:34px;height:34px;padding:0}}
+
+
+/* Portrait lumineux et aperçus fidèles aux projets déployés. */
+.contact-card{min-height:320px;padding-right:290px}
+.contact-portrait{right:24px;bottom:0;width:245px;height:100%;opacity:1;mask-image:linear-gradient(90deg,transparent 0%,#000 16%)}
+.contact-portrait img{filter:none;object-position:center 14%}
+.project-image{isolation:isolate;background:#151719}
+.project-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s}
+.project-image:hover .project-preview{transform:scale(1.06);filter:saturate(1.08)}
+.project-open{z-index:2}
+@media(max-width:760px){.contact-card{padding-right:220px}.contact-portrait{right:12px;width:205px}}
+@media(max-width:520px){
+  .contact-card{min-height:410px;padding:22px 18px}
+  .contact-copy{max-width:100%}
+  .contact-portrait{right:0;bottom:0;width:100%;height:220px;mask-image:linear-gradient(0deg,#000 45%,transparent 100%)}
+  .contact-portrait img{object-position:center 12%}
+}
+@media(prefers-reduced-motion:reduce){.project-preview{transition:none}}
