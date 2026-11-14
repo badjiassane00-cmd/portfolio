@@ -63,10 +63,14 @@ export function initPortfolioController(): void {
     if (!dialog.open) dialog.showModal();
     dialog.querySelector<HTMLElement>('.dialog-close')?.focus();
   };
-  document.querySelectorAll<HTMLButtonElement>('[data-project]').forEach((button) => button.addEventListener('click', () => {
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>('[data-project]');
+    if (!button) return;
     const projectIndex = projects.findIndex(({ name }) => name === button.dataset.project);
     if (projectIndex >= 0) openProject(projectIndex);
-  }));
+  });
   dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   dialogClose?.addEventListener('click', () => dialog?.close());
   dialog?.addEventListener('click', (event) => {

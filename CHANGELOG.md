@@ -2,6 +2,14 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.2.0] - 2026-11-14
+
+### Ajouté
+- Retour de la vidéo de présentation, conservée dans le dépôt original et copiée dans les assets servis par Render. Son lecteur natif ne charge le média qu’à la lecture.
+- Mode immersif WebGL original, avec scènes Web, Mobile, vidéo, projets, identité et contact, pilotage au scroll, touches, curseur et gestes tactiles.
+- Accès direct au parcours classique, sortie immédiate du mode immersif et solution visuelle de repli si WebGL est indisponible.
+- Présentation distincte des domaines Web et Mobile, sans attribuer de framework mobile non confirmé.
+
 ## [1.1.0] - 2026-11-14
 
 ### Modifié
