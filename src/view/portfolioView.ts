@@ -45,6 +45,7 @@ export function renderProjectDialog(project: Project, index: number, total: numb
   root.innerHTML = `
     <span class="dialog-kicker">${escapeHtml(project.type)} · ÉTUDE DE PROJET</span>
     <h2 id="dialog-title">${escapeHtml(project.name)}</h2>
+    ${project.image ? `<img class="dialog-project-image" src="${escapeHtml(project.image)}" alt="Capture du projet ${escapeHtml(project.name)}" loading="lazy" decoding="async" />` : ''}
     <p class="dialog-lead">${escapeHtml(project.description)}</p>
     <div class="dialog-section"><h3>Contexte</h3><p>${escapeHtml(project.context)}</p></div>
     <div class="dialog-section"><h3>Axes du projet</h3><ul>${project.focus.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>

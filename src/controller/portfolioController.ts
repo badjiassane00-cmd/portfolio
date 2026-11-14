@@ -81,22 +81,21 @@ export function initPortfolioController(): void {
   });
   dialog?.addEventListener('close', () => document.querySelector<HTMLButtonElement>(`[data-project="${CSS.escape(projects[currentProjectIndex]?.name ?? '')}"]`)?.focus());
 
-  const videoDialog = document.querySelector<HTMLDialogElement>('#video-dialog');
   const heroVideo = document.querySelector<HTMLVideoElement>('#hero-presentation-video');
-  const openVideo = (): void => {
-    if (!videoDialog || !heroVideo) return;
-    if (!heroVideo.src) heroVideo.src = heroVideo.dataset.src ?? '/assets/video-assane.mp4';
-    if (!videoDialog.open) videoDialog.showModal();
-    heroVideo.load();
+  const mobileHero = window.matchMedia('(max-width: 700px)');
+  const syncHeroPoster = (): void => {
+    if (heroVideo) heroVideo.poster = mobileHero.matches ? '/assets/hero-poster-mobile.webp' : '/assets/hero-poster.webp';
+  };
+  syncHeroPoster();
+  mobileHero.addEventListener('change', syncHeroPoster);
+  const playHeroVideo = (): void => {
+    if (!heroVideo) return;
+    heroVideo.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
     void heroVideo.play().catch(() => { heroVideo.controls = true; });
   };
-  document.querySelectorAll<HTMLButtonElement>('[data-open-video]').forEach((button) => button.addEventListener('click', openVideo));
-  videoDialog?.querySelector<HTMLButtonElement>('.video-dialog-close')?.addEventListener('click', () => videoDialog.close());
-  videoDialog?.addEventListener('click', (event) => { if (event.target === videoDialog) videoDialog.close(); });
-  videoDialog?.addEventListener('close', () => {
-    heroVideo?.pause();
-    if (heroVideo) { heroVideo.removeAttribute('src'); heroVideo.load(); }
-  });
+  document.querySelectorAll<HTMLButtonElement>('[data-open-video], [data-video-play]').forEach((button) => button.addEventListener('click', playHeroVideo));
+  heroVideo?.addEventListener('play', () => document.querySelector('#accueil')?.classList.add('has-video-started'));
+  heroVideo?.addEventListener('ended', () => document.querySelector('#accueil')?.classList.remove('has-video-started'));
 
   const copyStatus = document.querySelector<HTMLElement>('.copy-status');
   document.querySelector<HTMLButtonElement>('[data-copy-email]')?.addEventListener('click', async (event) => {

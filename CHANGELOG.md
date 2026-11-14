@@ -2,6 +2,19 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.3.0] - 2026-11-14
+
+### Modifié
+- Présentation vidéo déplacée dans un lecteur plein cadre sur l’accueil; le portrait panoramique et son équivalent vertical se chargent comme aperçus optimisés, tandis que la vidéo reste en chargement différé.
+- Parcours immersif organisé en six scènes : identité, vidéo, expertises Web/Mobile, projets, architecture numérique et contact.
+- Scène vidéo équipée d’un véritable lecteur, lisible et contrôlable sans quitter l’immersion.
+
+### Ajouté
+- Portrait d’Assane intégré à la scène d’identité dans un cadre holographique en perspective, avec révélation et parallaxe.
+- Scènes 3D dédiées à l’écran vidéo, aux usages Web/Mobile, aux projets et aux liens d’architecture Full-Stack.
+- Vue expertise interactive basée sur les technologies confirmées dans le CV et captures réelles déjà présentes dans les fiches de projets.
+- État de chargement, réduction automatique de la densité graphique sur appareils modestes, limitation d’images à faible résolution et arrêt de la vidéo à la sortie.
+
 ## [1.2.1] - 2026-11-14
 
 ### Modifié

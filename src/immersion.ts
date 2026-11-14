@@ -1,4 +1,4 @@
-import { projects } from './model/portfolio';
+import { projects, technologyGroups } from './model/portfolio';
 
 interface Scene {
   kicker: string;
@@ -9,12 +9,12 @@ interface Scene {
 }
 
 const scenes: Scene[] = [
-  { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Des expériences numériques, du Web au Mobile.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
-  { kicker: '02 / WEB', title: 'Construire pour le Web', description: 'Des interfaces aux fonctionnalités qui donnent vie aux applications.', actionLabel: 'Explorer mes compétences', destination: '#competences' },
-  { kicker: '03 / MOBILE', title: 'Penser dans la paume', description: 'Des parcours numériques imaginés pour les écrans tactiles et les usages mobiles.', actionLabel: 'Découvrir ma démarche', destination: '#apropos' },
-  { kicker: '04 / VIDÉO', title: 'En mouvement', description: 'Une présentation personnelle, à regarder à votre rythme.', actionLabel: 'Visionner la vidéo', destination: '#video' },
-  { kicker: '05 / PROJETS', title: 'Des idées en orbite', description: 'Des applications conçues autour de situations réelles. Choisissez un projet pour explorer sa fiche.', actionLabel: 'Voir les projets', destination: '#projets' },
-  { kicker: '06 / CONTACT', title: 'À vous de jouer', description: 'Une idée, un stage ou une collaboration ? La prochaine scène peut commencer ici.', actionLabel: 'Me contacter', destination: '#contact' },
+  { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Développeur Web & Mobile. Bienvenue dans mon univers numérique.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
+  { kicker: '02 / PRÉSENTATION', title: 'En mouvement', description: 'Quelques secondes pour faire connaissance, dans ma propre voix.', actionLabel: 'Lancer dans la scène', destination: '#video' },
+  { kicker: '03 / EXPERTISES', title: 'Du Web au Mobile', description: 'Deux terrains complémentaires, une même attention portée aux usages.', actionLabel: 'Voir mes compétences', destination: '#competences' },
+  { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Quatre projets, quatre réponses à des besoins concrets. Choisissez un projet pour en explorer les détails.', actionLabel: 'Parcourir les projets', destination: '#projets' },
+  { kicker: '05 / STUDIO NUMÉRIQUE', title: 'Tout est connecté', description: 'Interfaces, logique applicative, services et données composent les systèmes que je conçois.', actionLabel: 'Explorer les outils', destination: '#competences' },
+  { kicker: '06 / CONTACT', title: 'La suite, ensemble', description: 'Un projet, un stage ou une collaboration ? Je serais heureux d’en parler.', actionLabel: 'M’écrire directement', destination: 'mailto:badjiassane00@gmail.com' },
 ];
 
 const vertexSource = `
@@ -41,10 +41,16 @@ void main() {
   p.z = p.y * sin(pitch) + p.z * cos(pitch);
   p.y = y;
   p.xy *= 1.0 + sin(uTime * 0.75 + aPosition.z * 0.22) * 0.004;
-  float depth = max(0.12, -p.z);
+  float depth = -p.z;
   float focal = 1.18;
   float nearClip = 0.1;
   float farClip = 80.0;
+  if (depth <= nearClip) {
+    gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
+    gl_PointSize = 1.0;
+    vColor = aColor;
+    return;
+  }
   float clipZ = ((farClip + nearClip) / (farClip - nearClip)) * depth - ((2.0 * farClip * nearClip) / (farClip - nearClip));
   gl_Position = vec4(p.x * focal / uAspect, p.y * focal, clipZ, depth);
   gl_PointSize = uIsPoint > 0.5 ? clamp(uPointScale * (38.0 / depth), 1.0, 6.0) : 1.0;
@@ -78,7 +84,7 @@ class WireframeWorld {
   private readonly uniforms: { cameraZ: WebGLUniformLocation; lookX: WebGLUniformLocation; lookY: WebGLUniformLocation; aspect: WebGLUniformLocation; pointScale: WebGLUniformLocation; time: WebGLUniformLocation; isPoint: WebGLUniformLocation };
   private readonly locations: { position: number; color: number };
 
-  constructor(private readonly canvas: HTMLCanvasElement) {
+  constructor(private readonly canvas: HTMLCanvasElement, private readonly lowPower: boolean) {
     const context = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power' });
     if (!context) throw new Error('WebGL indisponible');
     this.gl = context;
@@ -111,7 +117,7 @@ class WireframeWorld {
   }
 
   resize(): void {
-    const dpr = Math.min(window.devicePixelRatio || 1, window.matchMedia('(max-width: 700px)').matches ? 1 : 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, this.lowPower ? 0.85 : window.matchMedia('(max-width: 700px)').matches ? 1 : 1.5);
     const width = Math.max(1, Math.floor(this.canvas.clientWidth * dpr));
     const height = Math.max(1, Math.floor(this.canvas.clientHeight * dpr));
     if (this.canvas.width === width && this.canvas.height === height) return;
@@ -210,10 +216,10 @@ class WireframeWorld {
       this.addPoint(center, [color[0], color[1], color[2], 0.9]);
 
       if (scene === 0) this.addDial(center, color);
-      if (scene === 1) this.addCube(center, 0.38, color);
-      if (scene === 2) this.addPhone(center, color);
-      if (scene === 3) this.addPlaySymbol(center, color);
-      if (scene === 4) this.addProjectConstellation(center, color);
+      if (scene === 1) this.addVideoScreen(center, color);
+      if (scene === 2) { this.addCube(center, 0.36, color); this.addPhone([center[0] + 0.58, center[1], center[2]], color); }
+      if (scene === 3) this.addProjectConstellation(center, color);
+      if (scene === 4) this.addArchitecture(center, color);
       if (scene === 5) this.addContactRings(center, color);
     }
 
@@ -235,7 +241,7 @@ class WireframeWorld {
 
     let seed = 372019;
     const random = (): number => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    for (let index = 0; index < 280; index += 1) {
+    for (let index = 0; index < (this.lowPower ? 110 : 280); index += 1) {
       const tint = random() > 0.74 ? [0.77, 0.68, 0.48] : [0.49, 0.57, 0.61];
       this.addPoint([
         (random() - 0.5) * 19,
@@ -326,6 +332,26 @@ class WireframeWorld {
     this.addLine(a, b, color); this.addLine(b, c, color); this.addLine(c, a, color);
   }
 
+  private addVideoScreen(center: Vector3, color: Color): void {
+    const x = 0.78; const y = 0.47; const z = center[2] - 0.82;
+    const a: Vector3 = [center[0] - x, center[1] - y, z];
+    const b: Vector3 = [center[0] + x, center[1] - y, z];
+    const c: Vector3 = [center[0] + x, center[1] + y, z];
+    const d: Vector3 = [center[0] - x, center[1] + y, z];
+    this.addLine(a, b, color); this.addLine(b, c, color); this.addLine(c, d, color); this.addLine(d, a, color);
+    this.addPlaySymbol(center, color);
+    this.addLine([center[0] - 0.18, center[1] - 0.55, z], [center[0] + 0.18, center[1] - 0.55, z], [color[0], color[1], color[2], 0.72]);
+  }
+
+  private addArchitecture(center: Vector3, color: Color): void {
+    const nodes: Vector3[] = [[-0.57, 0.36, -0.75], [0.57, 0.36, -0.75], [-0.57, -0.36, -0.75], [0.57, -0.36, -0.75]];
+    nodes.forEach(([x, y, z], index) => this.addCube([center[0] + x, center[1] + y, center[2] + z], index === 3 ? 0.2 : 0.15, [color[0], color[1], color[2], 0.86]));
+    this.addLine([center[0] - 0.39, center[1] + 0.36, center[2] - 0.75], [center[0] + 0.39, center[1] + 0.36, center[2] - 0.75], color);
+    this.addLine([center[0], center[1] + 0.2, center[2] - 0.75], [center[0], center[1] - 0.2, center[2] - 0.75], color);
+    this.addLine([center[0] - 0.39, center[1] - 0.36, center[2] - 0.75], [center[0] + 0.39, center[1] - 0.36, center[2] - 0.75], color);
+    this.addEllipse([center[0], center[1], center[2] - 0.8], 1.18, 0.68, [color[0], color[1], color[2], 0.37], 48, 0.18, 0.08);
+  }
+
   private addProjectConstellation(center: Vector3, color: Color): void {
     const offsets: Vector3[] = [[-0.48, -0.02, -0.7], [0, 0.24, -1], [0.49, -0.06, -0.76]];
     offsets.forEach(([x, y, z], index) => this.addCube([center[0] + x, center[1] + y, center[2] + z], index === 1 ? 0.22 : 0.16, [color[0], color[1], color[2], 0.85]));
@@ -352,7 +378,14 @@ export function initImmersion(): void {
   const actionRoot = document.querySelector<HTMLElement>('#immersion-actions');
   const progress = document.querySelector<HTMLElement>('#immersion-progress');
   const fallback = document.querySelector<HTMLElement>('#immersion-fallback');
-  if (!dialog || !canvas || !title || !kicker || !description || !number || !navigation || !actionRoot || !progress || !fallback) return;
+  const extra = document.querySelector<HTMLElement>('#immersion-extra');
+  const portrait = document.querySelector<HTMLElement>('#immersion-portrait');
+  const loading = document.querySelector<HTMLElement>('#immersion-loading');
+  const mediaRoot = document.querySelector<HTMLElement>('#immersion-media');
+  const virtualVideo = document.querySelector<HTMLVideoElement>('#immersion-video');
+  if (!dialog || !canvas || !title || !kicker || !description || !number || !navigation || !actionRoot || !progress || !fallback || !extra || !portrait || !mediaRoot || !virtualVideo) return;
+
+  const lowPower = (navigator.hardwareConcurrency || 8) <= 4 || ((navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4) <= 2;
 
   let scenePosition = 0;
   let currentScene = -1;
@@ -384,9 +417,19 @@ export function initImmersion(): void {
     const scene = scenes[index];
     if (!scene || index === currentScene) return;
     currentScene = index;
+    dialog.dataset.scene = String(index);
+    portrait.classList.toggle('is-visible', index === 0);
+    mediaRoot.hidden = index !== 1;
+    if (index === 1) {
+      if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
+      virtualVideo.load();
+    } else if (!virtualVideo.paused) {
+      virtualVideo.pause();
+    }
     title.textContent = scene.title;
     kicker.textContent = scene.kicker;
     description.textContent = scene.description;
+    extra.replaceChildren();
     number.textContent = String(index + 1).padStart(2, '0');
     progress.style.width = `${((index + 1) / scenes.length) * 100}%`;
     sceneButtons.forEach((button, buttonIndex) => {
@@ -400,12 +443,14 @@ export function initImmersion(): void {
     link.href = scene.destination;
     link.innerHTML = `<span>${scene.actionLabel}</span><i aria-hidden="true">↗</i>`;
     link.addEventListener('click', (event) => {
-      dialog.close();
       if (scene.destination === '#video') {
-        const video = document.querySelector<HTMLVideoElement>('#presentation-video');
-        video?.scrollIntoView({ behavior: reduceMotion.matches ? 'instant' : 'smooth', block: 'center' });
-        if (video) void video.play().catch(() => { video.controls = true; });
+        event.preventDefault();
+        if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
+        void virtualVideo.play().catch(() => { virtualVideo.controls = true; });
+        return;
       }
+      dialog.close();
+      if (scene.destination.startsWith('mailto:')) return;
       if (scene.destination === '#projets' || scene.destination === '#competences' || scene.destination === '#contact' || scene.destination === '#apropos') {
         const target = document.querySelector<HTMLElement>(scene.destination);
         if (target && !reduceMotion.matches) {
@@ -416,10 +461,47 @@ export function initImmersion(): void {
     });
     actionRoot.append(link);
 
-    if (index === 4) {
+    if (index === 2) {
+      const switcher = document.createElement('div');
+      switcher.className = 'immersion-expertise-switch';
+      const list = document.createElement('div');
+      list.className = 'immersion-tech-list';
+      const select = (domain: 'web' | 'mobile'): void => {
+        switcher.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+          const active = button.dataset.domain === domain;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+        list.replaceChildren();
+        if (domain === 'mobile') {
+          description.textContent = 'Interfaces mobiles, parcours tactiles et logique applicative pensés autour des usages sur smartphone.';
+          ['Interfaces mobiles', 'Parcours tactiles', 'Logique applicative'].forEach((name) => {
+            const chip = document.createElement('span'); chip.textContent = name; list.append(chip);
+          });
+          return;
+        }
+        description.textContent = 'Interfaces et applications Web, du Front-End au Back-End, avec API et bases de données.';
+        technologyGroups.flatMap((group) => group.items).forEach(({ name }) => {
+          const chip = document.createElement('span'); chip.textContent = name; list.append(chip);
+        });
+      };
+      (['web', 'mobile'] as const).forEach((domain) => {
+        const button = document.createElement('button');
+        button.type = 'button'; button.dataset.domain = domain;
+        button.textContent = domain === 'web' ? 'Développement Web' : 'Développement Mobile';
+        button.setAttribute('aria-pressed', String(domain === 'web'));
+        button.addEventListener('click', () => select(domain));
+        switcher.append(button);
+      });
+      extra.append(switcher, list);
+      select('web');
+    }
+
+    if (index === 3) {
       const projectList = document.createElement('div');
       projectList.className = 'immersion-project-list';
-      projects.forEach((project, projectIndex) => {
+      const featured = ['CampusRoom', 'StoreManager Pro', 'Patrimoine', 'TERRA Web'];
+      featured.map((name) => projects.find((project) => project.name === name)).filter((project) => project !== undefined).forEach((project, projectIndex) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.dataset.project = project.name;
@@ -427,6 +509,18 @@ export function initImmersion(): void {
         projectList.append(button);
       });
       actionRoot.append(projectList);
+    }
+
+    if (index === 4) {
+      const architecture = document.createElement('div');
+      architecture.className = 'immersion-architecture';
+      [['INTERFACES', 'HTML · CSS · JavaScript'], ['LOGIQUE', 'PHP · Laravel · Node.js'], ['SERVICES', 'API · applications'], ['DONNÉES', 'MySQL · PostgreSQL']].forEach(([label, detail]) => {
+        const node = document.createElement('div'); node.className = 'immersion-architecture-node';
+        const heading = document.createElement('b'); heading.textContent = label ?? '';
+        const content = document.createElement('span'); content.textContent = detail ?? '';
+        node.append(heading, content); architecture.append(node);
+      });
+      extra.append(architecture);
     }
   };
 
@@ -440,7 +534,7 @@ export function initImmersion(): void {
   const draw = (timestamp: number): void => {
     animationFrame = 0;
     if (!dialog.open || document.hidden) return;
-    if (!reduceMotion.matches && timestamp - lastFrame < 32) {
+    if (!reduceMotion.matches && timestamp - lastFrame < (lowPower ? 48 : 32)) {
       animationFrame = window.requestAnimationFrame(draw);
       return;
     }
@@ -459,7 +553,7 @@ export function initImmersion(): void {
   const ensureRenderer = (): void => {
     if (renderer || failedWebgl) return;
     try {
-      renderer = new WireframeWorld(canvas);
+      renderer = new WireframeWorld(canvas, lowPower);
       fallback.hidden = true;
       dialog.classList.remove('webgl-fallback');
     } catch (error) {
@@ -479,15 +573,25 @@ export function initImmersion(): void {
   const open = (event?: Event): void => {
     event?.preventDefault();
     if (!dialog.open) dialog.showModal();
+    if (loading) loading.hidden = false;
+    dialog.classList.toggle('is-low-power', lowPower);
     ensureRenderer();
     if (resizeObserver) resizeObserver.observe(canvas);
     else window.addEventListener('resize', resizeCanvas);
     cameraScene = scenePosition;
     renderOnce();
+    window.setTimeout(() => { if (loading) loading.hidden = true; }, 360);
   };
 
   const closeButtons = document.querySelectorAll<HTMLButtonElement>('[data-close-immersion]');
   document.querySelectorAll<HTMLButtonElement>('[data-open-immersion]').forEach((button) => button.addEventListener('click', open));
+  document.querySelector<HTMLButtonElement>('[data-play-immersive-video]')?.addEventListener('click', () => {
+    if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
+    void virtualVideo.play().catch(() => { virtualVideo.controls = true; });
+  });
+  virtualVideo.addEventListener('play', () => mediaRoot.classList.add('is-playing'));
+  virtualVideo.addEventListener('pause', () => mediaRoot.classList.remove('is-playing'));
+  virtualVideo.addEventListener('ended', () => mediaRoot.classList.remove('is-playing'));
   closeButtons.forEach((button) => button.addEventListener('click', () => dialog.close()));
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   dialog.addEventListener('close', () => {
@@ -495,6 +599,8 @@ export function initImmersion(): void {
     animationFrame = 0;
     resizeObserver?.unobserve(canvas);
     if (!resizeObserver) window.removeEventListener('resize', resizeCanvas);
+    virtualVideo.pause();
+    mediaRoot.classList.remove('is-playing');
   });
   dialog.addEventListener('cancel', () => { if (animationFrame) window.cancelAnimationFrame(animationFrame); animationFrame = 0; });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) renderOnce(); });
@@ -516,6 +622,8 @@ export function initImmersion(): void {
     const bounds = canvas.getBoundingClientRect();
     lookX = ((event.clientX - bounds.left) / Math.max(1, bounds.width) - 0.5) * 2;
     lookY = ((event.clientY - bounds.top) / Math.max(1, bounds.height) - 0.5) * -2;
+    portrait.style.setProperty('--portrait-x', `${lookX * 9}px`);
+    portrait.style.setProperty('--portrait-y', `${lookY * -7}px`);
     if (dragging && Math.abs(event.clientY - pointerStartY) > 48) {
       setSceneByDelta(event.clientY < pointerStartY ? 1 : -1);
       pointerStartY = event.clientY;
