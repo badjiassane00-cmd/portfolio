@@ -81,6 +81,46 @@ export function initPortfolioController(): void {
   });
   dialog?.addEventListener('close', () => document.querySelector<HTMLButtonElement>(`[data-project="${CSS.escape(projects[currentProjectIndex]?.name ?? '')}"]`)?.focus());
 
+  const videoDialog = document.querySelector<HTMLDialogElement>('#video-dialog');
+  const heroVideo = document.querySelector<HTMLVideoElement>('#hero-presentation-video');
+  const openVideo = (): void => {
+    if (!videoDialog || !heroVideo) return;
+    if (!heroVideo.src) heroVideo.src = heroVideo.dataset.src ?? '/assets/video-assane.mp4';
+    if (!videoDialog.open) videoDialog.showModal();
+    heroVideo.load();
+    void heroVideo.play().catch(() => { heroVideo.controls = true; });
+  };
+  document.querySelectorAll<HTMLButtonElement>('[data-open-video]').forEach((button) => button.addEventListener('click', openVideo));
+  videoDialog?.querySelector<HTMLButtonElement>('.video-dialog-close')?.addEventListener('click', () => videoDialog.close());
+  videoDialog?.addEventListener('click', (event) => { if (event.target === videoDialog) videoDialog.close(); });
+  videoDialog?.addEventListener('close', () => {
+    heroVideo?.pause();
+    if (heroVideo) { heroVideo.removeAttribute('src'); heroVideo.load(); }
+  });
+
+  const copyStatus = document.querySelector<HTMLElement>('.copy-status');
+  document.querySelector<HTMLButtonElement>('[data-copy-email]')?.addEventListener('click', async (event) => {
+    const button = event.currentTarget as HTMLButtonElement;
+    const email = button.dataset.copyEmail ?? 'badjiassane00@gmail.com';
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(email);
+      else {
+        const field = document.createElement('textarea');
+        field.value = email;
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.append(field);
+        field.select();
+        const copied = document.execCommand('copy');
+        field.remove();
+        if (!copied) throw new Error('Copie indisponible');
+      }
+      if (copyStatus) copyStatus.textContent = 'Adresse e-mail copiée.';
+    } catch {
+      if (copyStatus) copyStatus.textContent = `Copie impossible. Adresse : ${email}`;
+    }
+  });
+
   const form = document.querySelector<HTMLFormElement>('#contact-form');
   const formStatus = document.querySelector<HTMLElement>('#form-status');
   form?.addEventListener('submit', (event) => {
@@ -137,7 +177,7 @@ export function initPortfolioController(): void {
   }
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealTargets = document.querySelectorAll<HTMLElement>('.section-label, .hero-copy, .hero-visual, .about-principles > div, .technology-group, .project-card, .contact-form');
+  const revealTargets = document.querySelectorAll<HTMLElement>('.section-label, .about-principles > div, .technology-group, .project-card, .contact-form');
   if ('IntersectionObserver' in window && !reducedMotion) {
     const revealObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;

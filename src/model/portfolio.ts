@@ -23,10 +23,10 @@ export interface Project {
 }
 
 export const technologyGroups: TechnologyGroup[] = [
-  { category: 'Front-end', items: [{ name: 'HTML5', icon: 'html5' }, { name: 'CSS3', icon: 'css3' }, { name: 'JavaScript', icon: 'javascript' }, { name: 'TypeScript', icon: 'typescript' }, { name: 'Vue.js', icon: 'vuejs' }, { name: 'React', icon: 'react' }, { name: 'Tailwind CSS', icon: 'tailwindcss' }] },
-  { category: 'Back-end', items: [{ name: 'PHP', icon: 'php' }, { name: 'Laravel', icon: 'laravel' }, { name: 'Express.js', icon: 'expressjs' }, { name: 'Python', icon: 'python' }] },
-  { category: 'Données & stockage', items: [{ name: 'MySQL', icon: 'mysql' }, { name: 'PostgreSQL', icon: 'postgresql' }, { name: 'Redis', icon: 'redis' }, { name: 'MinIO', icon: 'minio' }, { name: 'API S3', icon: 's3' }, { name: 'SQL', icon: 'sql' }] },
-  { category: 'Outils & environnements', items: [{ name: 'Git', icon: 'git' }, { name: 'GitHub', icon: 'github' }, { name: 'GitLab', icon: 'gitlab' }, { name: 'Docker', icon: 'docker' }, { name: 'Docker Compose', icon: 'docker-compose' }, { name: 'GitLab CI/CD', icon: 'gitlab-cicd' }, { name: 'Composer', icon: 'composer' }, { name: 'npm', icon: 'npm' }, { name: 'Vite', icon: 'vite' }, { name: 'VS Code', icon: 'vscode' }, { name: 'Render', icon: 'render' }, { name: 'Vercel', icon: 'vercel' }, { name: 'Docker Hub', icon: 'docker-hub' }] },
+  { category: 'Front-end', items: [{ name: 'HTML', icon: 'html5' }, { name: 'CSS', icon: 'css3' }, { name: 'JavaScript', icon: 'javascript' }, { name: 'TypeScript', icon: 'typescript' }, { name: 'Vue.js', icon: 'vuejs' }, { name: 'React', icon: 'react' }] },
+  { category: 'Back-end', items: [{ name: 'PHP', icon: 'php' }, { name: 'Laravel', icon: 'laravel' }, { name: 'Node.js', icon: 'nodejs' }, { name: 'Express.js', icon: 'expressjs' }] },
+  { category: 'Données & stockage', items: [{ name: 'MySQL', icon: 'mysql' }, { name: 'PostgreSQL', icon: 'postgresql' }, { name: 'Sequelize', icon: 'sequelize' }, { name: 'Prisma', icon: 'prisma' }] },
+  { category: 'Outils & environnements', items: [{ name: 'Git', icon: 'git' }, { name: 'GitHub', icon: 'github' }, { name: 'GitLab', icon: 'gitlab' }, { name: 'Docker', icon: 'docker' }, { name: 'Visual Studio Code', icon: 'vscode' }, { name: 'Postman', icon: 'postman' }] },
 ];
 
 export const projects: Project[] = [

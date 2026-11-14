@@ -2,6 +2,18 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.2.1] - 2026-11-14
+
+### Modifié
+- Vidéo de présentation remontée dans la section d’accueil, avec aperçu portrait et lecteur modal à chargement différé.
+- Compétences affichées alignées sur les technologies effectivement listées dans le CV fourni.
+- Contact simplifié autour d’un lien e-mail direct et d’une action de copie; formulaire conservé comme option secondaire.
+- Positionnement Développeur Web & Mobile rendu explicite dès l’accueil et équilibré dans la présentation des domaines.
+- Animation d’apparition retirée des éléments principaux de l’accueil afin que le contenu reste lisible au premier affichage.
+
+### Ajouté
+- Icônes dédiées à Node.js, Sequelize, Prisma et Postman.
+
 ## [1.2.0] - 2026-11-14
 
 ### Ajouté
