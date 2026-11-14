@@ -2,6 +2,19 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.1.0] - 2026-11-14
+
+### Modifié
+- Refonte éditoriale responsive de l’accueil, des sections À propos, Expertise, Projets et Contact, avec une identité AB cohérente.
+- Projets réorganisés en cartes et fiches détaillées, à partir des dépôts, captures et descriptions disponibles.
+- Compétences classées en catégories Front-end, Back-end, Données et Outils.
+
+### Ajouté
+- Navigation mobile accessible, commandes de thème, filtres, fiches avec navigation précédente/suivante et bouton de retour en haut.
+- Formulaire validé qui prépare un e-mail via le client de messagerie, sans dépendance à un service externe.
+- Métadonnées Open Graph et Twitter, données structurées, favicon, robots.txt et sitemap.xml.
+- Réglages responsive et prise en compte de prefers-reduced-motion.
+
 ## [1.0.4] - 2026-10-11
 
 ### Ajouté
