@@ -82,13 +82,8 @@ export function initPortfolioController(): void {
   dialog?.addEventListener('close', () => document.querySelector<HTMLButtonElement>(`[data-project="${CSS.escape(projects[currentProjectIndex]?.name ?? '')}"]`)?.focus());
 
   const heroVideo = document.querySelector<HTMLVideoElement>('#hero-presentation-video');
-  const mobileHero = window.matchMedia('(max-width: 700px)');
-  const syncHeroPoster = (): void => {
-    if (heroVideo) heroVideo.poster = mobileHero.matches ? '/assets/hero-poster-mobile.webp' : '/assets/hero-poster.webp';
-  };
-  syncHeroPoster();
-  mobileHero.addEventListener('change', syncHeroPoster);
   if (heroVideo) {
+    heroVideo.poster = '/assets/hero-poster.webp';
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
     void heroVideo.play().catch(() => { heroVideo.controls = true; });

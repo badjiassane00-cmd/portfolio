@@ -10,7 +10,7 @@ interface Scene {
 
 const scenes: Scene[] = [
   { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Développeur Web & Mobile. Bienvenue dans mon univers numérique.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
-  { kicker: '02 / PRÉSENTATION', title: 'En mouvement', description: 'Quelques secondes pour faire connaissance, dans ma propre voix.', actionLabel: 'Lancer dans la scène', destination: '#video' },
+  { kicker: '02 / PRÉSENTATION', title: 'Du besoin à l’expérience', description: 'Écouter, structurer, construire : chaque projet avance avec un objectif clair.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
   { kicker: '03 / EXPERTISES', title: 'Du Web au Mobile', description: 'Deux terrains complémentaires, une même attention portée aux usages.', actionLabel: 'Voir mes compétences', destination: '#competences' },
   { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Quatre projets, quatre réponses à des besoins concrets. Choisissez un projet pour en explorer les détails.', actionLabel: 'Parcourir les projets', destination: '#projets' },
   { kicker: '05 / STUDIO NUMÉRIQUE', title: 'Tout est connecté', description: 'Interfaces, logique applicative, services et données composent les systèmes que je conçois.', actionLabel: 'Explorer les outils', destination: '#competences' },
@@ -216,7 +216,7 @@ class WireframeWorld {
       this.addPoint(center, [color[0], color[1], color[2], 0.9]);
 
       if (scene === 0) this.addDial(center, color);
-      if (scene === 1) this.addVideoScreen(center, color);
+      if (scene === 1) { this.addCube(center, 0.38, color); this.addEllipse([center[0], center[1], center[2] - 0.8], 0.72, 0.44, color, 48, 0.22, 0.12); }
       if (scene === 2) { this.addCube(center, 0.36, color); this.addPhone([center[0] + 0.58, center[1], center[2]], color); }
       if (scene === 3) this.addProjectConstellation(center, color);
       if (scene === 4) this.addArchitecture(center, color);
@@ -325,24 +325,6 @@ class WireframeWorld {
     this.addLine([center[0] - 0.19, center[1] - 0.43, z], [center[0] + 0.19, center[1] - 0.43, z], [color[0], color[1], color[2], 0.7]);
   }
 
-  private addPlaySymbol(center: Vector3, color: Color): void {
-    const a: Vector3 = [center[0] - 0.24, center[1] + 0.35, center[2] - 0.76];
-    const b: Vector3 = [center[0] + 0.38, center[1], center[2] - 0.76];
-    const c: Vector3 = [center[0] - 0.24, center[1] - 0.35, center[2] - 0.76];
-    this.addLine(a, b, color); this.addLine(b, c, color); this.addLine(c, a, color);
-  }
-
-  private addVideoScreen(center: Vector3, color: Color): void {
-    const x = 0.78; const y = 0.47; const z = center[2] - 0.82;
-    const a: Vector3 = [center[0] - x, center[1] - y, z];
-    const b: Vector3 = [center[0] + x, center[1] - y, z];
-    const c: Vector3 = [center[0] + x, center[1] + y, z];
-    const d: Vector3 = [center[0] - x, center[1] + y, z];
-    this.addLine(a, b, color); this.addLine(b, c, color); this.addLine(c, d, color); this.addLine(d, a, color);
-    this.addPlaySymbol(center, color);
-    this.addLine([center[0] - 0.18, center[1] - 0.55, z], [center[0] + 0.18, center[1] - 0.55, z], [color[0], color[1], color[2], 0.72]);
-  }
-
   private addArchitecture(center: Vector3, color: Color): void {
     const nodes: Vector3[] = [[-0.57, 0.36, -0.75], [0.57, 0.36, -0.75], [-0.57, -0.36, -0.75], [0.57, -0.36, -0.75]];
     nodes.forEach(([x, y, z], index) => this.addCube([center[0] + x, center[1] + y, center[2] + z], index === 3 ? 0.2 : 0.15, [color[0], color[1], color[2], 0.86]));
@@ -381,9 +363,7 @@ export function initImmersion(): void {
   const extra = document.querySelector<HTMLElement>('#immersion-extra');
   const portrait = document.querySelector<HTMLElement>('#immersion-portrait');
   const loading = document.querySelector<HTMLElement>('#immersion-loading');
-  const mediaRoot = document.querySelector<HTMLElement>('#immersion-media');
-  const virtualVideo = document.querySelector<HTMLVideoElement>('#immersion-video');
-  if (!dialog || !canvas || !title || !kicker || !description || !number || !navigation || !actionRoot || !progress || !fallback || !extra || !portrait || !mediaRoot || !virtualVideo) return;
+  if (!dialog || !canvas || !title || !kicker || !description || !number || !navigation || !actionRoot || !progress || !fallback || !extra || !portrait) return;
 
   const lowPower = (navigator.hardwareConcurrency || 8) <= 4 || ((navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4) <= 2;
 
@@ -419,13 +399,6 @@ export function initImmersion(): void {
     currentScene = index;
     dialog.dataset.scene = String(index);
     portrait.classList.toggle('is-visible', index === 0);
-    mediaRoot.hidden = index !== 1;
-    if (index === 1) {
-      if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
-      virtualVideo.load();
-    } else if (!virtualVideo.paused) {
-      virtualVideo.pause();
-    }
     title.textContent = scene.title;
     kicker.textContent = scene.kicker;
     description.textContent = scene.description;
@@ -443,12 +416,6 @@ export function initImmersion(): void {
     link.href = scene.destination;
     link.innerHTML = `<span>${scene.actionLabel}</span><i aria-hidden="true">↗</i>`;
     link.addEventListener('click', (event) => {
-      if (scene.destination === '#video') {
-        event.preventDefault();
-        if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
-        void virtualVideo.play().catch(() => { virtualVideo.controls = true; });
-        return;
-      }
       dialog.close();
       if (scene.destination.startsWith('mailto:')) return;
       if (scene.destination === '#projets' || scene.destination === '#competences' || scene.destination === '#contact' || scene.destination === '#apropos') {
@@ -585,13 +552,6 @@ export function initImmersion(): void {
 
   const closeButtons = document.querySelectorAll<HTMLButtonElement>('[data-close-immersion]');
   document.querySelectorAll<HTMLButtonElement>('[data-open-immersion]').forEach((button) => button.addEventListener('click', open));
-  document.querySelector<HTMLButtonElement>('[data-play-immersive-video]')?.addEventListener('click', () => {
-    if (!virtualVideo.src) virtualVideo.src = virtualVideo.dataset.src ?? '/assets/video-assane.mp4';
-    void virtualVideo.play().catch(() => { virtualVideo.controls = true; });
-  });
-  virtualVideo.addEventListener('play', () => mediaRoot.classList.add('is-playing'));
-  virtualVideo.addEventListener('pause', () => mediaRoot.classList.remove('is-playing'));
-  virtualVideo.addEventListener('ended', () => mediaRoot.classList.remove('is-playing'));
   closeButtons.forEach((button) => button.addEventListener('click', () => dialog.close()));
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   dialog.addEventListener('close', () => {
@@ -599,8 +559,6 @@ export function initImmersion(): void {
     animationFrame = 0;
     resizeObserver?.unobserve(canvas);
     if (!resizeObserver) window.removeEventListener('resize', resizeCanvas);
-    virtualVideo.pause();
-    mediaRoot.classList.remove('is-playing');
   });
   dialog.addEventListener('cancel', () => { if (animationFrame) window.cancelAnimationFrame(animationFrame); animationFrame = 0; });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) renderOnce(); });
