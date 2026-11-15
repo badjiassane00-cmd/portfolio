@@ -50,6 +50,7 @@
 .video-dialog video{width:100%;max-height:calc(100svh - 80px);display:block;aspect-ratio:16/9;object-fit:contain;background:#080907}
 .video-dialog-close{position:absolute;z-index:2;top:-16px;right:-16px;width:36px;height:36px;border:1px solid #d5bd83;border-radius:50%;background:#171915;color:#f8f4e7;font-size:22px;cursor:pointer}
 .contact-actions{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 0}
+.button-whatsapp{border-color:#c8dfd2;color:#367b5d}.button-whatsapp:hover{border-color:#93bea4;background:#edf6f0;color:#286948}
 .copy-status{min-height:1.4em;margin:8px 0;color:var(--muted);font-size:10px}
 .contact-form-details{margin-top:28px;border-top:1px solid var(--line)}
 .contact-form-details>summary{padding:15px 0;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer}
