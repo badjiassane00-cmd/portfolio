@@ -17,17 +17,20 @@ export function renderTechnologyGroups(groups: TechnologyGroup[]): void {
 export function renderProjects(projects: Project[]): void {
   const root = document.querySelector<HTMLElement>('#project-grid');
   if (!root) return;
-  root.innerHTML = projects.map((project, index) => `
-    <article class="project-card project-${escapeHtml(project.visual)}" data-category="${escapeHtml(project.category)}" style="--card-index:${index}">
+  const featured = projects.filter((project) => project.url);
+  const orderedProjects = [...featured, ...projects.filter((project) => !project.url)];
+  root.innerHTML = orderedProjects.map((project, index) => `
+    <article class="project-card${project.url ? ' project-featured' : ''} project-${escapeHtml(project.visual)}" data-category="${escapeHtml(project.category)}" style="--card-index:${index}">
       <div class="project-art ${project.image ? '' : 'project-art-concept'}" aria-hidden="true">
         ${project.image ? `<img class="project-preview" src="${escapeHtml(project.image)}" alt="Capture de l’application ${escapeHtml(project.name)}" loading="lazy" decoding="async" />` : `<span class="project-art-kicker">${escapeHtml(project.type)}</span><span class="project-art-title">${escapeHtml(project.name)}</span><span class="project-art-mark" aria-hidden="true">${escapeHtml(project.name.split(/\s+/).map((word) => word[0]).join('').slice(0, 2))}<i>.</i></span>`}
+        ${project.url ? '<span class="project-demo-tag">Démo à tester</span>' : ''}
         <span class="project-art-index">0${index + 1} <i>/ 0${projects.length}</i></span>
         ${project.url ? '<span class="project-live"><i></i> Démo en ligne</span>' : '<span class="project-live project-live-private">Étude de projet</span>'}
       </div>
       <div class="project-details"><div class="project-meta"><span>${escapeHtml(project.type)}</span><span>${project.technologies.length ? `${project.technologies.length} technologies` : 'Projet web'}</span></div>
         <div class="project-title-row"><h3>${escapeHtml(project.name)}</h3><button class="project-open" type="button" data-project="${escapeHtml(project.name)}" aria-label="Découvrir le projet ${escapeHtml(project.name)}">↗</button></div>
         <p>${escapeHtml(project.description)}</p>
-        <div class="project-links"><button class="project-detail-link" type="button" data-project="${escapeHtml(project.name)}">Explorer le projet <span aria-hidden="true">↗</span></button>${project.repository ? `<a href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">Code source <span aria-hidden="true">↗</span></a>` : ''}</div>
+        <div class="project-links">${project.url ? `<a class="project-demo-link" href="${escapeHtml(project.url)}" target="_blank" rel="noopener noreferrer">Essayer la démo <span aria-hidden="true">↗</span></a>` : ''}<button class="project-detail-link" type="button" data-project="${escapeHtml(project.name)}">Explorer le projet <span aria-hidden="true">↗</span></button>${project.repository ? `<a href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">Code source <span aria-hidden="true">↗</span></a>` : ''}</div>
       </div>
     </article>`).join('');
 
