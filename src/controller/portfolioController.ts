@@ -184,8 +184,8 @@ export function initPortfolioController(): void {
     document.querySelectorAll<HTMLElement>('.project-card').forEach((card) => {
       card.addEventListener('pointermove', (event) => {
         const bounds = card.getBoundingClientRect();
-        card.style.setProperty('--pointer-x', `${((event.clientX - bounds.left) / bounds.width - 0.5) * 3}deg`);
-        card.style.setProperty('--pointer-y', `${((event.clientY - bounds.top) / bounds.height - 0.5) * -3}deg`);
+        card.style.setProperty('--pointer-x', `${((event.clientX - bounds.left) / bounds.width - 0.5) * 1.5}deg`);
+        card.style.setProperty('--pointer-y', `${((event.clientY - bounds.top) / bounds.height - 0.5) * -1.5}deg`);
       });
       card.addEventListener('pointerleave', () => { card.style.setProperty('--pointer-x', '0deg'); card.style.setProperty('--pointer-y', '0deg'); });
     });

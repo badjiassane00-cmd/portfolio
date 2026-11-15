@@ -48,10 +48,11 @@ export function renderProjectDialog(project: Project, index: number, total: numb
   root.innerHTML = `
     <span class="dialog-kicker">${escapeHtml(project.type)} · ÉTUDE DE PROJET</span>
     <h2 id="dialog-title">${escapeHtml(project.name)}</h2>
-    ${project.image ? `<img class="dialog-project-image" src="${escapeHtml(project.image)}" alt="Capture du projet ${escapeHtml(project.name)}" loading="lazy" decoding="async" />` : ''}
+    ${project.image ? `<figure class="dialog-project-figure"><img class="dialog-project-image" src="${escapeHtml(project.image)}" alt="Aperçu de l’interface ${escapeHtml(project.name)}" loading="lazy" decoding="async" /><figcaption>Aperçu de l’interface du projet</figcaption></figure>` : ''}
     <p class="dialog-lead">${escapeHtml(project.description)}</p>
-    <div class="dialog-section"><h3>Contexte</h3><p>${escapeHtml(project.context)}</p></div>
-    <div class="dialog-section"><h3>Axes du projet</h3><ul>${project.focus.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>
+    <div class="dialog-section"><h3>Le besoin</h3><p>${escapeHtml(project.context)}</p></div>
+    <div class="dialog-section"><h3>Ma contribution</h3><p>${escapeHtml(project.contribution)}</p></div>
+    <div class="dialog-section"><h3>Fonctionnalités & axes</h3><ul>${project.focus.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>
     ${project.technologies.length ? `<div class="dialog-section"><h3>Technologies identifiées</h3><div class="dialog-tags">${project.technologies.map((technology) => `<span>${escapeHtml(technology)}</span>`).join('')}</div></div>` : ''}
     <div class="dialog-actions">${project.url ? `<a class="button button-primary" href="${escapeHtml(project.url)}" target="_blank" rel="noopener noreferrer">Voir la démonstration <span aria-hidden="true">↗</span></a>` : ''}${project.repository ? `<a class="button button-outline" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">Voir le code source <span aria-hidden="true">↗</span></a>` : ''}</div>
     <div class="dialog-pagination"><button type="button" data-project-step="previous">← Projet précédent</button><span>${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span><button type="button" data-project-step="next">Projet suivant →</button></div>`;
