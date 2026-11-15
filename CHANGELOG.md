@@ -2,6 +2,11 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.3.3] - 2026-11-15
+
+### Modifié
+- CV téléchargeable remplacé par la dernière version fournie.
+
 ## [1.3.2] - 2026-11-15
 
 ### Ajouté
