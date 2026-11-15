@@ -13,7 +13,7 @@ export function initPortfolioController(): void {
     root.dataset.theme = theme;
     themeButton?.setAttribute('aria-label', theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
     if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☼' : '◐';
-    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#171915' : '#f6f5f0');
+    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#171915' : '#f3f6fb');
   };
   const theme = readTheme();
   applyTheme(theme === 'dark' ? 'dark' : 'light');
@@ -86,7 +86,7 @@ export function initPortfolioController(): void {
     heroVideo.poster = '/assets/hero-poster.webp';
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
-    void heroVideo.play().catch(() => { heroVideo.controls = true; });
+    void heroVideo.play().catch(() => undefined);
   }
   heroVideo?.addEventListener('play', () => document.querySelector('#accueil')?.classList.add('has-video-started'));
   heroVideo?.addEventListener('ended', () => document.querySelector('#accueil')?.classList.remove('has-video-started'));
