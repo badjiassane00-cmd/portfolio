@@ -2,6 +2,12 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.3.1] - 2026-11-15
+
+### Modifié
+- Vidéo d’accueil lancée automatiquement et en sourdine dès l’ouverture; les commandes natives permettent de mettre en pause et d’activer le son.
+- Retrait du bouton d’accueil « Lire la vidéo » et de son bouton de lecture superposé.
+
 ## [1.3.0] - 2026-11-14
 
 ### Modifié

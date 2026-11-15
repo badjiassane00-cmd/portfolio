@@ -88,12 +88,11 @@ export function initPortfolioController(): void {
   };
   syncHeroPoster();
   mobileHero.addEventListener('change', syncHeroPoster);
-  const playHeroVideo = (): void => {
-    if (!heroVideo) return;
-    heroVideo.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
     void heroVideo.play().catch(() => { heroVideo.controls = true; });
-  };
-  document.querySelectorAll<HTMLButtonElement>('[data-open-video], [data-video-play]').forEach((button) => button.addEventListener('click', playHeroVideo));
+  }
   heroVideo?.addEventListener('play', () => document.querySelector('#accueil')?.classList.add('has-video-started'));
   heroVideo?.addEventListener('ended', () => document.querySelector('#accueil')?.classList.remove('has-video-started'));
 
