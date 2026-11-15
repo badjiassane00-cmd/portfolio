@@ -12,7 +12,7 @@ const scenes: Scene[] = [
   { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Développeur Web & Mobile. Bienvenue dans mon univers numérique.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
   { kicker: '02 / PRÉSENTATION', title: 'Du besoin à l’expérience', description: 'Écouter, structurer, construire : chaque projet avance avec un objectif clair.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
   { kicker: '03 / EXPERTISES', title: 'Du Web au Mobile', description: 'Deux terrains complémentaires, une même attention portée aux usages.', actionLabel: 'Voir mes compétences', destination: '#competences' },
-  { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Quatre projets, quatre réponses à des besoins concrets. Choisissez un projet pour en explorer les détails.', actionLabel: 'Parcourir les projets', destination: '#projets' },
+  { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Des projets en démonstration et des études de réalisation. Choisissez un projet pour découvrir son contexte et ses fonctionnalités.', actionLabel: 'Parcourir les projets', destination: '#projets' },
   { kicker: '05 / STUDIO NUMÉRIQUE', title: 'Tout est connecté', description: 'Interfaces, logique applicative, services et données composent les systèmes que je conçois.', actionLabel: 'Explorer les outils', destination: '#competences' },
   { kicker: '06 / CONTACT', title: 'La suite, ensemble', description: 'Un projet, un stage ou une collaboration ? Je serais heureux d’en parler.', actionLabel: 'M’écrire directement', destination: 'mailto:badjiassane00@gmail.com' },
 ];
@@ -467,8 +467,8 @@ export function initImmersion(): void {
     if (index === 3) {
       const projectList = document.createElement('div');
       projectList.className = 'immersion-project-list';
-      const featured = ['CampusRoom', 'StoreManager Pro', 'Patrimoine', 'TERRA Web'];
-      featured.map((name) => projects.find((project) => project.name === name)).filter((project) => project !== undefined).forEach((project, projectIndex) => {
+      const orderedProjects = [...projects.filter((project) => project.url), ...projects.filter((project) => !project.url)];
+      orderedProjects.forEach((project, projectIndex) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.dataset.project = project.name;

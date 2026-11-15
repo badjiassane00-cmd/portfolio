@@ -2,6 +2,23 @@
 
 Les changements suivent [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et les versions [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [1.3.2] - 2026-11-15
+
+### Ajouté
+- Parcours de formation, études de projets détaillées et liens directs vers les démonstrations.
+- Résumé écrit de la vidéo d’accueil pour les visiteurs qui ne peuvent pas la lire ou l’entendre.
+
+### Modifié
+- Positionnement Full-Stack clarifié sur l’accueil; animations plus discrètes et lecture vidéo suspendue si la réduction des mouvements est activée.
+- Projets avec démo affichés en premier dans la sélection et dans l’immersion.
+- Commandes de lecture natives masquées; la vidéo d’accueil reste muette et respecte la préférence système de réduction des animations.
+- Palette claire et contraste des textes affinés.
+
+### Corrigé
+- Image Open Graph/Twitter redirigée vers un fichier réellement publié dans les assets.
+- Mise en page mobile de la formation ajustée et description de la scène projets synchronisée avec les cinq projets.
+- Suppression des styles de l’ancien lecteur modal et de son affiche mobile inutilisée.
+
 ## [1.3.1] - 2026-11-15
 
 ### Modifié

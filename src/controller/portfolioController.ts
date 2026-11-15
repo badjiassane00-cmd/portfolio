@@ -86,7 +86,16 @@ export function initPortfolioController(): void {
     heroVideo.poster = '/assets/hero-poster.webp';
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
-    void heroVideo.play().catch(() => undefined);
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncHeroMotion = (): void => {
+      if (motionPreference.matches) {
+        heroVideo.pause();
+        return;
+      }
+      void heroVideo.play().catch(() => undefined);
+    };
+    syncHeroMotion();
+    motionPreference.addEventListener('change', syncHeroMotion);
   }
   heroVideo?.addEventListener('play', () => document.querySelector('#accueil')?.classList.add('has-video-started'));
   heroVideo?.addEventListener('ended', () => document.querySelector('#accueil')?.classList.remove('has-video-started'));
