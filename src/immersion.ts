@@ -1,4 +1,5 @@
 import { projects, technologyGroups } from './model/portfolio';
+import { getLocale } from './i18n';
 
 interface Scene {
   kicker: string;
@@ -6,15 +7,16 @@ interface Scene {
   description: string;
   actionLabel: string;
   destination: string;
+  en: { kicker: string; title: string; description: string; actionLabel: string };
 }
 
 const scenes: Scene[] = [
-  { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Développeur Web & Mobile. Bienvenue dans mon univers numérique.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
-  { kicker: '02 / PRÉSENTATION', title: 'Du besoin à l’expérience', description: 'Écouter, structurer, construire : chaque projet avance avec un objectif clair.', actionLabel: 'Découvrir mon parcours', destination: '#apropos' },
-  { kicker: '03 / EXPERTISES', title: 'Du Web au Mobile', description: 'Deux terrains complémentaires, une même attention portée aux usages.', actionLabel: 'Voir mes compétences', destination: '#competences' },
-  { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Des projets en démonstration et des études de réalisation. Choisissez un projet pour découvrir son contexte et ses fonctionnalités.', actionLabel: 'Parcourir les projets', destination: '#projets' },
-  { kicker: '05 / STUDIO NUMÉRIQUE', title: 'Tout est connecté', description: 'Interfaces, logique applicative, services et données composent les systèmes que je conçois.', actionLabel: 'Explorer les outils', destination: '#competences' },
-  { kicker: '06 / CONTACT', title: 'La suite, ensemble', description: 'Un projet, un stage ou une collaboration ? Je serais heureux d’en parler.', actionLabel: 'M’écrire directement', destination: 'mailto:badjiassane00@gmail.com' },
+  { kicker: '01 / IDENTITÉ', title: 'Assane Badji', description: 'Développeur Web & Mobile. Bienvenue dans mon univers numérique.', actionLabel: 'Découvrir mon parcours', destination: '#apropos', en: { kicker: '01 / IDENTITY', title: 'Assane Badji', description: 'Web & Mobile Developer. Welcome to my digital world.', actionLabel: 'Explore my background' } },
+  { kicker: '02 / PRÉSENTATION', title: 'Du besoin à l’expérience', description: 'Écouter, structurer, construire : chaque projet avance avec un objectif clair.', actionLabel: 'Découvrir mon parcours', destination: '#apropos', en: { kicker: '02 / APPROACH', title: 'From need to experience', description: 'Listen, structure, build: every project moves forward with a clear goal.', actionLabel: 'Explore my background' } },
+  { kicker: '03 / EXPERTISES', title: 'Du Web au Mobile', description: 'Deux terrains complémentaires, une même attention portée aux usages.', actionLabel: 'Voir mes compétences', destination: '#competences', en: { kicker: '03 / EXPERTISE', title: 'From Web to Mobile', description: 'Two complementary areas, with the same attention to how people use them.', actionLabel: 'View my skills' } },
+  { kicker: '04 / PROJETS', title: 'Des idées en orbite', description: 'Des projets en démonstration et des études de réalisation. Choisissez un projet pour découvrir son contexte et ses fonctionnalités.', actionLabel: 'Parcourir les projets', destination: '#projets', en: { kicker: '04 / PROJECTS', title: 'Ideas in orbit', description: 'Live demos and project overviews. Choose a project to explore its context and features.', actionLabel: 'Browse projects' } },
+  { kicker: '05 / STUDIO NUMÉRIQUE', title: 'Tout est connecté', description: 'Interfaces, logique applicative, services et données composent les systèmes que je conçois.', actionLabel: 'Explorer les outils', destination: '#competences', en: { kicker: '05 / DIGITAL STUDIO', title: 'Everything is connected', description: 'Interfaces, application logic, services and data form the systems I build.', actionLabel: 'Explore the toolkit' } },
+  { kicker: '06 / CONTACT', title: 'La suite, ensemble', description: 'Un projet, un stage ou une collaboration ? Je serais heureux d’en parler.', actionLabel: 'M’écrire directement', destination: 'mailto:badjiassane00@gmail.com', en: { kicker: '06 / CONTACT', title: 'What comes next, together', description: 'A project, internship or collaboration? I would be glad to talk.', actionLabel: 'Email me directly' } },
 ];
 
 const vertexSource = `
@@ -385,7 +387,7 @@ export function initImmersion(): void {
     button.className = 'immersion-scene-button';
     button.type = 'button';
     button.dataset.scene = String(index);
-    button.setAttribute('aria-label', `Scène ${index + 1} sur ${scenes.length} : ${scene.title}`);
+    button.setAttribute('aria-label', getLocale() === 'en' ? `Scene ${index + 1} of ${scenes.length}: ${scene.en.title}` : `Scène ${index + 1} sur ${scenes.length} : ${scene.title}`);
     button.setAttribute('aria-pressed', 'false');
     button.innerHTML = `<span>0${index + 1}</span><i></i>`;
     navigation.append(button);
@@ -399,9 +401,10 @@ export function initImmersion(): void {
     currentScene = index;
     dialog.dataset.scene = String(index);
     portrait.classList.toggle('is-visible', index === 0);
-    title.textContent = scene.title;
-    kicker.textContent = scene.kicker;
-    description.textContent = scene.description;
+    const copy = getLocale() === 'en' ? scene.en : scene;
+    title.textContent = copy.title;
+    kicker.textContent = copy.kicker;
+    description.textContent = copy.description;
     extra.replaceChildren();
     number.textContent = String(index + 1).padStart(2, '0');
     progress.style.width = `${((index + 1) / scenes.length) * 100}%`;
@@ -414,7 +417,7 @@ export function initImmersion(): void {
     const link = document.createElement('a');
     link.className = 'immersion-primary';
     link.href = scene.destination;
-    link.innerHTML = `<span>${scene.actionLabel}</span><i aria-hidden="true">↗</i>`;
+    link.innerHTML = `<span>${copy.actionLabel}</span><i aria-hidden="true">↗</i>`;
     link.addEventListener('click', (event) => {
       dialog.close();
       if (scene.destination.startsWith('mailto:')) return;
@@ -429,6 +432,7 @@ export function initImmersion(): void {
     actionRoot.append(link);
 
     if (index === 2) {
+      const english = getLocale() === 'en';
       const switcher = document.createElement('div');
       switcher.className = 'immersion-expertise-switch';
       const list = document.createElement('div');
@@ -441,13 +445,13 @@ export function initImmersion(): void {
         });
         list.replaceChildren();
         if (domain === 'mobile') {
-          description.textContent = 'Interfaces mobiles, parcours tactiles et logique applicative pensés autour des usages sur smartphone.';
-          ['Interfaces mobiles', 'Parcours tactiles', 'Logique applicative'].forEach((name) => {
+          description.textContent = english ? 'Mobile interfaces, touch journeys and application logic shaped around smartphone use.' : 'Interfaces mobiles, parcours tactiles et logique applicative pensés autour des usages sur smartphone.';
+          (english ? ['Mobile interfaces', 'Touch journeys', 'Application logic'] : ['Interfaces mobiles', 'Parcours tactiles', 'Logique applicative']).forEach((name) => {
             const chip = document.createElement('span'); chip.textContent = name; list.append(chip);
           });
           return;
         }
-        description.textContent = 'Interfaces et applications Web, du Front-End au Back-End, avec API et bases de données.';
+        description.textContent = english ? 'Web interfaces and applications, from front end to back end, with APIs and databases.' : 'Interfaces et applications Web, du Front-End au Back-End, avec API et bases de données.';
         technologyGroups.flatMap((group) => group.items).forEach(({ name }) => {
           const chip = document.createElement('span'); chip.textContent = name; list.append(chip);
         });
@@ -455,7 +459,7 @@ export function initImmersion(): void {
       (['web', 'mobile'] as const).forEach((domain) => {
         const button = document.createElement('button');
         button.type = 'button'; button.dataset.domain = domain;
-        button.textContent = domain === 'web' ? 'Développement Web' : 'Développement Mobile';
+        button.textContent = domain === 'web' ? (getLocale() === 'en' ? 'Web development' : 'Développement Web') : (getLocale() === 'en' ? 'Mobile development' : 'Développement Mobile');
         button.setAttribute('aria-pressed', String(domain === 'web'));
         button.addEventListener('click', () => select(domain));
         switcher.append(button);
@@ -481,7 +485,8 @@ export function initImmersion(): void {
     if (index === 4) {
       const architecture = document.createElement('div');
       architecture.className = 'immersion-architecture';
-      [['INTERFACES', 'HTML · CSS · JavaScript'], ['LOGIQUE', 'PHP · Laravel · Node.js'], ['SERVICES', 'API · applications'], ['DONNÉES', 'MySQL · PostgreSQL']].forEach(([label, detail]) => {
+      const architectureLabels = getLocale() === 'en' ? [['INTERFACES', 'HTML · CSS · JavaScript'], ['LOGIC', 'PHP · Laravel · Node.js'], ['SERVICES', 'APIs · applications'], ['DATA', 'MySQL · PostgreSQL']] : [['INTERFACES', 'HTML · CSS · JavaScript'], ['LOGIQUE', 'PHP · Laravel · Node.js'], ['SERVICES', 'API · applications'], ['DONNÉES', 'MySQL · PostgreSQL']];
+      architectureLabels.forEach(([label, detail]) => {
         const node = document.createElement('div'); node.className = 'immersion-architecture-node';
         const heading = document.createElement('b'); heading.textContent = label ?? '';
         const content = document.createElement('span'); content.textContent = detail ?? '';
@@ -551,6 +556,14 @@ export function initImmersion(): void {
   };
 
   const closeButtons = document.querySelectorAll<HTMLButtonElement>('[data-close-immersion]');
+  window.addEventListener('portfolio:languagechange', () => {
+    currentScene = -1;
+    sceneButtons.forEach((button, index) => {
+      const scene = scenes[index];
+      if (scene) button.setAttribute('aria-label', getLocale() === 'en' ? `Scene ${index + 1} of ${scenes.length}: ${scene.en.title}` : `Scène ${index + 1} sur ${scenes.length} : ${scene.title}`);
+    });
+    syncSceneContent(Math.round(scenePosition));
+  });
   document.querySelectorAll<HTMLButtonElement>('[data-open-immersion]').forEach((button) => button.addEventListener('click', open));
   closeButtons.forEach((button) => button.addEventListener('click', () => dialog.close()));
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });

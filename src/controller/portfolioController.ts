@@ -1,5 +1,6 @@
 import { projects } from '../model/portfolio';
 import { renderProjectDialog } from '../view/portfolioView';
+import { getLocale } from '../i18n';
 
 const readTheme = (): string | null => {
   try { return localStorage.getItem('portfolio-theme'); } catch { return null; }
@@ -79,6 +80,32 @@ export function initPortfolioController(): void {
     if (target.dataset.projectStep === 'previous') openProject(currentProjectIndex - 1);
     if (target.dataset.projectStep === 'next') openProject(currentProjectIndex + 1);
   });
+  window.addEventListener('portfolio:languagechange', () => {
+    if (dialog?.open) renderProjectDialog(projects[currentProjectIndex]!, currentProjectIndex, projects.length);
+  });
+  dialog?.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || !form.matches('[data-campusroom-demo]')) return;
+    event.preventDefault();
+    const data = new FormData(form);
+    const room = String(data.get('room'));
+    const start = String(data.get('start'));
+    const end = String(data.get('end'));
+    const status = form.querySelector<HTMLElement>('.campus-demo-status');
+    const english = getLocale() === 'en';
+    if (!start || !end || end <= start) {
+      if (status) status.textContent = english ? 'Choose an end time later than the start time.' : 'Choisissez une heure de fin après l’heure de début.';
+      return;
+    }
+    const sampleSlots: Record<string, Array<[string, string]>> = {
+      A: [['09:00', '10:00'], ['13:00', '14:00']],
+      B: [['10:00', '11:30'], ['15:00', '16:00']],
+    };
+    const conflict = (sampleSlots[room] ?? []).find(([from, to]) => start < to && end > from);
+    if (status) status.textContent = conflict
+      ? (english ? `This sample slot overlaps with ${conflict[0]}–${conflict[1]}. No booking was saved.` : `Ce créneau chevauche l’exemple ${conflict[0]}–${conflict[1]}. Aucune réservation n’a été enregistrée.`)
+      : (english ? 'This sample slot appears available. No booking was saved.' : 'Ce créneau semble libre dans cette simulation. Aucune réservation n’a été enregistrée.');
+  });
   dialog?.addEventListener('close', () => document.querySelector<HTMLButtonElement>(`[data-project="${CSS.escape(projects[currentProjectIndex]?.name ?? '')}"]`)?.focus());
 
   const heroVideo = document.querySelector<HTMLVideoElement>('#hero-presentation-video');
@@ -117,9 +144,9 @@ export function initPortfolioController(): void {
         field.remove();
         if (!copied) throw new Error('Copie indisponible');
       }
-      if (copyStatus) copyStatus.textContent = 'Adresse e-mail copiée.';
+      if (copyStatus) copyStatus.textContent = getLocale() === 'en' ? 'Email address copied.' : 'Adresse e-mail copiée.';
     } catch {
-      if (copyStatus) copyStatus.textContent = `Copie impossible. Adresse : ${email}`;
+      if (copyStatus) copyStatus.textContent = getLocale() === 'en' ? `Could not copy. Address: ${email}` : `Copie impossible. Adresse : ${email}`;
     }
   });
 
@@ -129,7 +156,7 @@ export function initPortfolioController(): void {
     event.preventDefault();
     const data = new FormData(form);
     if (String(data.get('website') ?? '').trim()) {
-      if (formStatus) formStatus.textContent = 'Votre message n’a pas pu être préparé. Réessayez ou écrivez directement à badjiassane00@gmail.com.';
+      if (formStatus) formStatus.textContent = getLocale() === 'en' ? 'Your message could not be prepared. Try again or email badjiassane00@gmail.com directly.' : 'Votre message n’a pas pu être préparé. Réessayez ou écrivez directement à badjiassane00@gmail.com.';
       return;
     }
     if (!form.reportValidity()) return;
@@ -137,9 +164,9 @@ export function initPortfolioController(): void {
     const email = String(data.get('email') ?? '').trim();
     const subject = String(data.get('subject') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
-    const body = `Bonjour Assane,\n\n${message}\n\n${name}\n${email}`;
+    const body = getLocale() === 'en' ? `Hello Assane,\n\n${message}\n\n${name}\n${email}` : `Bonjour Assane,\n\n${message}\n\n${name}\n${email}`;
     const mailto = `mailto:badjiassane00@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (formStatus) formStatus.textContent = 'Votre application e-mail va s’ouvrir avec le message préparé. Il ne vous restera qu’à l’envoyer.';
+    if (formStatus) formStatus.textContent = getLocale() === 'en' ? 'Your email app will open with the message ready. You will just need to send it.' : 'Votre application e-mail va s’ouvrir avec le message préparé. Il ne vous restera qu’à l’envoyer.';
     window.location.href = mailto;
   });
 
@@ -206,7 +233,7 @@ export function initPortfolioController(): void {
     let index = 0;
     window.setInterval(() => {
       skill.classList.add('is-changing');
-      window.setTimeout(() => { index = (index + 1) % words.length; if (skill.isConnected) skill.textContent = words[index] ?? ''; skill.classList.remove('is-changing'); }, 180);
+      window.setTimeout(() => { const activeWords = (skill.dataset.words ?? '').split('|'); index = (index + 1) % activeWords.length; if (skill.isConnected) skill.textContent = activeWords[index] ?? ''; skill.classList.remove('is-changing'); }, 180);
     }, 2800);
   }
 }
