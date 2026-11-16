@@ -16,9 +16,23 @@ const strings: Record<string, string> = {
   'Assane Badji | Développeur Web & Mobile': 'Assane Badji | Web & Mobile Developer',
 };
 
-export const projectCopy: Record<string, { type: string; description: string; context: string; contribution: string; focus: string[] }> = {
-  CampusRoom: { type: 'Room booking app', description: 'An application for managing university rooms and bookings.', context: 'This project focuses on managing university rooms and their bookings.', contribution: 'Developed a room management application with user, role and booking management.', focus: ['Room management', 'User and role management', 'Booking management'] },
-  'StoreManager Pro': { type: 'Store management app', description: 'A store management application focused on products and inventory.', context: 'The project addresses store management needs.', contribution: 'Designed a store management application.', focus: ['Product management', 'Inventory management'] },
+export const projectCopy: Record<string, { type: string; description: string; context: string; contribution: string; focus: string[]; architecture?: string }> = {
+  CampusRoom: {
+    type: 'University room booking',
+    description: 'A university booking app that brings room listings and requests together, checking availability before a reservation is saved.',
+    context: 'Booking requests by email can create duplicates and make it harder to check time-slot availability and track reservations.',
+    contribution: 'Designed and developed the booking flows, business rules (active rooms, capacity, duration and overlaps), and web and API interfaces.',
+    focus: ['Room catalogue and media resources', 'Checks for time conflicts, capacity and room status', 'Web and JSON API flows with roles and authorization', 'Archiving completed reservations in MongoDB'],
+    architecture: 'Laravel separates routes, controllers, validation, services and repositories. MySQL stores relational data, while MongoDB archives completed reservations. Private media uses local, GridFS or S3-compatible storage strategies, with Blade or JSON presentation.',
+  },
+  'StoreManager Pro': {
+    type: 'Point of sale & store management',
+    description: 'An object-oriented PHP point-of-sale app for recording sales and tracking stock, customers, debts and payments.',
+    context: 'A sale on credit must respect available stock and the customer’s credit limit while keeping the order, line items and stock movements consistent.',
+    contribution: 'Modeled the domain and implemented the sales flow: building the cart, applying business checks, then recording the sale transactionally with a full rollback on failure.',
+    focus: ['Point of sale: customer, cart, payment and sales register', 'Stock and credit-limit checks before confirmation', 'Credit sales, debts and repayments', 'Relational model for products, customers, suppliers, orders and deliveries'],
+    architecture: 'The flow is Router → POS controller → sales service → models and entities. PDO connects to PostgreSQL with an SQLite fallback. A transaction writes the order and lines, updates stock and creates a debt for credit sales.',
+  },
   'TERRA Web': { type: 'Web project', description: 'A web platform for centralizing and sharing biodiversity information.', context: 'This project centralizes and shares information about biodiversity, ecosystems and observations.', contribution: 'Developed a biodiversity platform with ecosystem and observation features.', focus: ['Centralized information', 'Ecosystems', 'Observations', 'Sharing'] },
   Patrimoine: { type: 'Web project', description: 'A web platform dedicated to heritage management.', context: 'The project involves designing and developing a web platform for heritage management.', contribution: 'Contributed to the platform design and development.', focus: ['Heritage management', 'Design and development of a web platform'] },
   PrestaLink: { type: 'Service marketplace', description: 'Connects people with certified craftspeople and service providers in Senegal.', context: 'The platform helps people find certified craftspeople and service providers.', contribution: 'Designed a web experience to find and discover service providers in Senegal.', focus: ['Connecting people and providers', 'Craftspeople and services', 'A service for Senegal'] },

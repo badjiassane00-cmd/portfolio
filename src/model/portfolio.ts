@@ -20,6 +20,7 @@ export interface Project {
   context: string;
   contribution: string;
   focus: string[];
+  architecture?: string;
   technologies: string[];
   image?: string;
   url?: string;
@@ -70,21 +71,23 @@ export const technologyGroups: TechnologyGroup[] = [
 
 export const projects: Project[] = [
   {
-    name: 'CampusRoom', type: 'Application de réservation', category: 'fullstack', visual: 'campusroom', image: '/assets/projects/campusroom-screenshot.png',
-    description: 'Application de gestion des réservations de salles universitaires, pensée pour organiser l’usage des espaces de manière claire et fiable.',
-    context: 'Le projet porte sur la gestion des salles universitaires et de leurs réservations.',
-    contribution: 'Développement d’une application de gestion des salles, des utilisateurs, des rôles et des réservations.',
-    focus: ['Gestion des salles', 'Gestion des utilisateurs et des rôles', 'Gestion des réservations'],
-    technologies: ['PHP', 'Laravel', 'MySQL', 'JavaScript', 'Git'],
+    name: 'CampusRoom', type: 'Réservation de salles universitaires', category: 'fullstack', visual: 'campusroom', image: '/assets/projects/campusroom-screenshot.webp',
+    description: 'Application de réservation universitaire qui centralise le catalogue des salles et les demandes, avec vérification des disponibilités avant enregistrement.',
+    context: 'Les demandes par courriel peuvent créer des doublons et compliquent la vérification des créneaux ainsi que le suivi des réservations.',
+    contribution: 'Conception et développement des parcours de réservation, des règles métier (salle active, capacité, durée et chevauchements) et des interfaces web et API.',
+    focus: ['Catalogue des salles et gestion des ressources multimédias', 'Contrôle des conflits horaires, de la capacité et de l’état des salles', 'Parcours web et API JSON avec rôles et autorisations', 'Archivage des réservations terminées dans MongoDB'],
+    architecture: 'Laravel sépare routes, contrôleurs, validation, services et dépôts. MySQL porte les données relationnelles; MongoDB archive les réservations terminées. Les médias privés passent par des stratégies de stockage local, GridFS ou S3 compatible, avec une présentation Blade ou JSON.',
+    technologies: ['PHP 8.3', 'Laravel 13', 'MySQL', 'MongoDB', 'Redis', 'Docker Compose', 'GitLab CI/CD'],
     repository: 'https://gitlab.com/badjiassane00-cmd/campusroom',
   },
   {
-    name: 'StoreManager Pro', type: 'ERP de gestion', category: 'fullstack', visual: 'storemanager', image: '/assets/projects/storemanager-screenshot.png',
-    description: 'Application de gestion commerciale et de stock pour suivre les produits, les mouvements et les besoins du quotidien.',
-    context: 'Le projet répond aux besoins de gestion commerciale d’un magasin.',
-    contribution: 'Conception d’une application de gestion de magasin, avec un accent sur les produits et les stocks.',
-    focus: ['Gestion des produits', 'Gestion des stocks'],
-    technologies: ['PHP', 'Laravel', 'MySQL', 'JavaScript', 'GitHub'],
+    name: 'StoreManager Pro', type: 'Point de vente & gestion commerciale', category: 'fullstack', visual: 'storemanager', image: '/assets/projects/storemanager-screenshot.webp',
+    description: 'Mini-ERP de point de vente en PHP orienté objet pour enregistrer les ventes et suivre les stocks, les clients, les dettes et les paiements.',
+    context: 'Une vente à crédit doit respecter le stock disponible et la limite de crédit du client, tout en gardant cohérents la commande, ses lignes et les mouvements de stock.',
+    contribution: 'Modélisation du domaine et mise en œuvre du flux de vente : construction du panier, contrôles métier puis enregistrement transactionnel, avec annulation complète en cas d’erreur.',
+    focus: ['Point de vente : client, panier, versement et registre des ventes', 'Contrôle du stock et de la limite de crédit avant validation', 'Ventes à crédit, dettes et remboursements', 'Modèle relationnel pour produits, clients, fournisseurs, commandes et livraisons'],
+    architecture: 'Le parcours suit Routeur → contrôleur POS → service de vente → modèles et entités. PDO se connecte à PostgreSQL avec un repli SQLite. Une transaction enregistre la commande et ses lignes, met à jour le stock et crée une dette pour une vente à crédit.',
+    technologies: ['PHP', 'PostgreSQL', 'SQLite', 'PDO', 'SQL'],
     repository: 'https://github.com/badjiassane00-cmd/StoreManager-Pro',
   },
   {
