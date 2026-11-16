@@ -30,8 +30,8 @@ export const technologyGroups: TechnologyGroup[] = [
   {
     category: 'Front-end',
     items: [
-      { name: 'HTML5', icon: 'html5', level: 'mastered' },
-      { name: 'CSS3', icon: 'css3', level: 'mastered' },
+      { name: 'HTML', icon: 'html5', level: 'mastered' },
+      { name: 'CSS', icon: 'css3', level: 'mastered' },
       { name: 'JavaScript', icon: 'javascript', level: 'mastered' },
       { name: 'TypeScript', icon: 'typescript', level: 'project' },
       { name: 'Vue.js', icon: 'vuejs', level: 'project' },
@@ -52,8 +52,6 @@ export const technologyGroups: TechnologyGroup[] = [
     items: [
       { name: 'MySQL', icon: 'mysql', level: 'mastered' },
       { name: 'PostgreSQL', icon: 'postgresql', level: 'project' },
-      { name: 'Sequelize', icon: 'sequelize', level: 'project' },
-      { name: 'Prisma', icon: 'prisma', level: 'learning' },
     ],
   },
   {
@@ -63,9 +61,8 @@ export const technologyGroups: TechnologyGroup[] = [
       { name: 'GitHub', icon: 'github', level: 'mastered' },
       { name: 'GitLab', icon: 'gitlab', level: 'project' },
       { name: 'Docker', icon: 'docker', level: 'project' },
-      { name: 'Visual Studio Code', icon: 'vscode', level: 'mastered' },
-      { name: 'Linux', icon: 'linux', level: 'project' },
       { name: 'Postman', icon: 'postman', level: 'project' },
+      { name: 'Linux', icon: 'linux', level: 'project' },
     ],
   },
 ];
@@ -105,7 +102,7 @@ export const projects: Project[] = [
     contribution: 'Participation à la conception et au développement de la plateforme.',
     focus: ['Gestion du patrimoine', 'Conception et développement d’une plateforme web'],
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL'],
-    url: 'https://patrimoine-5o5f.onrender.com/', repository: 'https://github.com/badjiassane00-cmd/patrimoine',
+    repository: 'https://github.com/badjiassane00-cmd/patrimoine',
   },
   {
     name: 'PrestaLink', type: 'Mise en relation', category: 'web', visual: 'prestalink', image: '/assets/projects/find.webp',
@@ -114,6 +111,6 @@ export const projects: Project[] = [
     contribution: 'Conception d’une expérience web pour rechercher et découvrir des prestataires au Sénégal.',
     focus: ['Mise en relation', 'Artisans et prestataires', 'Service destiné au Sénégal'],
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'Laravel', 'MySQL'],
-    url: 'https://find-3nmq.onrender.com/',
+    repository: 'https://github.com/badjiassane00-cmd/find',
   },
 ];
