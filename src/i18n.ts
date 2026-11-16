@@ -40,7 +40,7 @@ export function setLocale(locale: Locale): void {
     if (translated) node.textContent = text.replace(trimmed, translated);
   }
   const heroTitle = document.querySelector<HTMLElement>('#hero-title');
-  if (heroTitle) heroTitle.innerHTML = locale === 'en' ? 'Assane Badji<br /><span>Web & Mobile</span><br /><em>Developer.</em>' : 'Assane Badji<br /><span>Développeur</span><br /><em>Web & Mobile.</em>';
+  if (heroTitle) heroTitle.innerHTML = locale === 'en' ? 'Assane Badji<br /><span>Full-Stack Junior</span><br /><em>Web & Mobile.</em>' : 'Assane Badji<br /><span>Full-Stack Junior</span><br /><em>Web & Mobile.</em>';
   document.querySelectorAll<HTMLElement>('[aria-label]').forEach((element) => {
     const value = element.getAttribute('aria-label') ?? '';
     const translated = locale === 'en' ? strings[value] : Object.entries(strings).find(([, english]) => english === value)?.[0];
@@ -58,8 +58,8 @@ export function setLocale(locale: Locale): void {
   });
   const button = document.querySelector<HTMLButtonElement>('.language-toggle');
   if (button) { button.textContent = locale === 'fr' ? 'EN' : 'FR'; button.setAttribute('aria-label', locale === 'fr' ? 'Switch to English' : 'Passer en français'); }
-  document.title = locale === 'en' ? 'Assane Badji | Web & Mobile Developer' : 'Assane Badji | Développeur Web & Mobile';
-  document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', locale === 'en' ? 'Discover the portfolio of Assane Badji, Web & Mobile developer in Senegal. Explore his skills, projects and software development work.' : 'Découvrez le portfolio d’Assane Badji, développeur Web & Mobile au Sénégal. Explorez ses compétences, ses projets et ses réalisations en développement informatique.');
+  document.title = locale === 'en' ? 'Assane Badji | Full-Stack Junior | Web & Mobile' : 'Assane Badji | Développeur Full-Stack Junior | Web & Mobile';
+  document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', locale === 'en' ? 'Discover the portfolio of Assane Badji, Full-Stack Junior developer and Web & Mobile specialist in Senegal. Explore his skills, projects and software development work.' : 'Découvrez le portfolio d’Assane Badji, développeur Full-Stack Junior et spécialiste Web & Mobile au Sénégal. Explorez ses compétences, ses projets et ses réalisations en développement informatique.');
   const rotatingSkill = document.querySelector<HTMLElement>('.rotating-skill');
   if (rotatingSkill) rotatingSkill.dataset.words = locale === 'en' ? 'Interfaces|Applications|Digital experiences' : 'Interfaces|Applications|Expériences numériques';
   document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute('content', document.title);
