@@ -115,6 +115,7 @@ export const projects: Project[] = [
     contribution: 'Conception d’une expérience web pour rechercher et découvrir des prestataires au Sénégal.',
     focus: ['Mise en relation', 'Artisans et prestataires', 'Service destiné au Sénégal'],
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'Laravel', 'MySQL'],
+    url: 'https://find-3nmq.onrender.com/',
     repository: 'https://github.com/badjiassane00-cmd/find',
   },
 ];
