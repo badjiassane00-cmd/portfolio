@@ -70,7 +70,7 @@ export const technologyGroups: TechnologyGroup[] = [
 
 export const projects: Project[] = [
   {
-    name: 'CampusRoom', type: 'Application de réservation', category: 'fullstack', visual: 'campusroom',
+    name: 'CampusRoom', type: 'Application de réservation', category: 'fullstack', visual: 'campusroom', image: '/assets/projects/campusroom-screenshot.png',
     description: 'Application de gestion des réservations de salles universitaires, pensée pour organiser l’usage des espaces de manière claire et fiable.',
     context: 'Le projet porte sur la gestion des salles universitaires et de leurs réservations.',
     contribution: 'Développement d’une application de gestion des salles, des utilisateurs, des rôles et des réservations.',
@@ -79,7 +79,7 @@ export const projects: Project[] = [
     repository: 'https://gitlab.com/badjiassane00-cmd/campusroom',
   },
   {
-    name: 'StoreManager Pro', type: 'ERP de gestion', category: 'fullstack', visual: 'storemanager',
+    name: 'StoreManager Pro', type: 'ERP de gestion', category: 'fullstack', visual: 'storemanager', image: '/assets/projects/storemanager-screenshot.png',
     description: 'Application de gestion commerciale et de stock pour suivre les produits, les mouvements et les besoins du quotidien.',
     context: 'Le projet répond aux besoins de gestion commerciale d’un magasin.',
     contribution: 'Conception d’une application de gestion de magasin, avec un accent sur les produits et les stocks.',
