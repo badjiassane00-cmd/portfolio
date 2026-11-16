@@ -7,14 +7,32 @@ export function renderTechnologyGroups(groups: TechnologyGroup[]): void {
   const root = document.querySelector<HTMLElement>('#technology-groups');
   if (!root) return;
   const english = getLocale() === 'en';
-  const categoryNames: Record<string, string> = { 'Données & stockage': 'Data & storage', 'Outils & environnements': 'Tools & environments' };
-  root.innerHTML = groups.map(({ category, items }, index) => `
-    <details class="technology-group" ${index === 0 ? 'open' : ''}>
-      <summary class="technology-toggle"><span class="technology-index">0${index + 1}</span><span class="technology-category">${escapeHtml(english ? (categoryNames[category] ?? category) : category)}</span><span class="technology-count">${items.length} ${english ? 'tools' : 'outils'}</span><span class="technology-chevron" aria-hidden="true">↗</span></summary>
-      <div class="technology-list">${items.map(({ name, icon }) => `
-        <div class="technology-card"><img class="technology-logo" src="/assets/technologies/${escapeHtml(icon)}.svg" alt="" loading="lazy" decoding="async" /><span class="technology-name">${escapeHtml(name)}</span></div>`).join('')}
-      </div>
-    </details>`).join('');
+  const categoryNames: Record<string, string> = { 'Bases de données': 'Databases', 'Outils & environnements': 'Tools & environments' };
+  const levelLabels: Record<'mastered' | 'project' | 'learning', string> = {
+    mastered: english ? 'Mastered' : 'Maîtrisées',
+    project: english ? 'Used in projects' : 'Utilisées dans des projets',
+    learning: english ? 'In learning' : 'En cours d’apprentissage',
+  };
+  const orderedLevels = ['mastered', 'project', 'learning'] as const;
+  root.innerHTML = groups.map(({ category, items }, index) => {
+    const levelSections = orderedLevels.map((level) => {
+      const matches = items.filter((item) => (item.level ?? 'mastered') === level);
+      if (!matches.length) return '';
+      return `
+        <div class="technology-level">
+          <span class="technology-level-label">${escapeHtml(levelLabels[level])}</span>
+          <div class="technology-level-list">${matches.map(({ name, icon }) => `
+            <div class="technology-card"><img class="technology-logo" src="/assets/technologies/${escapeHtml(icon)}.svg" alt="" loading="lazy" decoding="async" /><span class="technology-name">${escapeHtml(name)}</span></div>`).join('')}
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <details class="technology-group" ${index === 0 ? 'open' : ''}>
+        <summary class="technology-toggle"><span class="technology-index">0${index + 1}</span><span class="technology-category">${escapeHtml(english ? (categoryNames[category] ?? category) : category)}</span><span class="technology-count">${items.length} ${english ? 'tools' : 'outils'}</span><span class="technology-chevron" aria-hidden="true">↗</span></summary>
+        <div class="technology-groups-content">${levelSections}</div>
+      </details>`;
+  }).join('');
 }
 
 export function renderProjects(projects: Project[]): void {
@@ -35,7 +53,7 @@ export function renderProjects(projects: Project[]): void {
         <span class="project-art-index">0${index + 1} <i>/ 0${projects.length}</i></span>
         ${project.url ? `<span class="project-live"><i></i> ${english ? 'Live demo' : 'Démo en ligne'}</span>` : `<span class="project-live project-live-private">${english ? 'Project overview' : 'Étude de projet'}</span>`}
       </div>
-      <div class="project-details"><div class="project-meta"><span>${escapeHtml(type)}</span><span>${project.technologies.length ? `${project.technologies.length} ${english ? 'technologies' : 'technologies'}` : (english ? 'Web project' : 'Projet web')}</span></div>
+      <div class="project-details"><div class="project-meta"><span>${escapeHtml(type)}</span><span>${project.technologies.length ? project.technologies.slice(0, 3).join(' · ') : (english ? 'Web project' : 'Projet web')}</span></div>
         <div class="project-title-row"><h3>${escapeHtml(project.name)}</h3><button class="project-open" type="button" data-project="${escapeHtml(project.name)}" aria-label="${english ? 'Discover project' : 'Découvrir le projet'} ${escapeHtml(project.name)}">↗</button></div>
         <p>${escapeHtml(description)}</p>
         <div class="project-links">${project.url ? `<a class="project-demo-link" href="${escapeHtml(project.url)}" target="_blank" rel="noopener noreferrer">${english ? 'Try the demo' : 'Essayer la démo'} <span aria-hidden="true">↗</span></a>` : ''}<button class="project-detail-link" type="button" data-project="${escapeHtml(project.name)}">${english ? 'Explore project' : 'Explorer le projet'} <span aria-hidden="true">↗</span></button>${project.repository ? `<a href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">${english ? 'Source code' : 'Code source'} <span aria-hidden="true">↗</span></a>` : ''}</div>
