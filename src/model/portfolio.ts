@@ -25,7 +25,7 @@ export interface Project {
   image?: string;
   url?: string;
   repository?: string;
-  visual: 'terra' | 'patrimoine' | 'prestalink' | 'campusroom' | 'storemanager';
+  visual: 'terra' | 'patrimoine' | 'prestalink' | 'campusroom';
 }
 
 export const technologyGroups: TechnologyGroup[] = [
@@ -43,8 +43,8 @@ export const technologyGroups: TechnologyGroup[] = [
   {
     category: 'Back-end',
     items: [
-      { name: 'PHP', icon: 'php', level: 'mastered', proof: 'CampusRoom · StoreManager Pro' },
-      { name: 'Laravel', icon: 'laravel', level: 'mastered', proof: 'CampusRoom · StoreManager Pro' },
+      { name: 'PHP', icon: 'php', level: 'mastered', proof: 'CampusRoom' },
+      { name: 'Laravel', icon: 'laravel', level: 'mastered', proof: 'CampusRoom · PrestaLink' },
       { name: 'Node.js', icon: 'nodejs', level: 'project', proof: 'TERRA · Patrimoine' },
       { name: 'Express.js', icon: 'expressjs', level: 'project', proof: 'Patrimoine' },
     ],
@@ -79,16 +79,6 @@ export const projects: Project[] = [
     architecture: 'Laravel sépare routes, contrôleurs, validation, services et dépôts. MySQL porte les données relationnelles; MongoDB archive les réservations terminées. Les médias privés passent par des stratégies de stockage local, GridFS ou S3 compatible, avec une présentation Blade ou JSON.',
     technologies: ['PHP 8.3', 'Laravel 13', 'MySQL', 'MongoDB', 'Redis', 'Docker Compose', 'GitLab CI/CD'],
     repository: 'https://gitlab.com/badjiassane00-cmd/campusroom',
-  },
-  {
-    name: 'StoreManager Pro', type: 'Point de vente & gestion commerciale', category: 'fullstack', visual: 'storemanager', image: '/assets/projects/storemanager-screenshot.webp',
-    description: 'Mini-ERP de point de vente en PHP orienté objet pour enregistrer les ventes et suivre les stocks, les clients, les dettes et les paiements.',
-    context: 'Une vente à crédit doit respecter le stock disponible et la limite de crédit du client, tout en gardant cohérents la commande, ses lignes et les mouvements de stock.',
-    contribution: 'Modélisation du domaine et mise en œuvre du flux de vente : construction du panier, contrôles métier puis enregistrement transactionnel, avec annulation complète en cas d’erreur.',
-    focus: ['Point de vente : client, panier, versement et registre des ventes', 'Contrôle du stock et de la limite de crédit avant validation', 'Ventes à crédit, dettes et remboursements', 'Modèle relationnel pour produits, clients, fournisseurs, commandes et livraisons'],
-    architecture: 'Le parcours suit Routeur → contrôleur POS → service de vente → modèles et entités. PDO se connecte à PostgreSQL avec un repli SQLite. Une transaction enregistre la commande et ses lignes, met à jour le stock et crée une dette pour une vente à crédit.',
-    technologies: ['PHP', 'PostgreSQL', 'SQLite', 'PDO', 'SQL'],
-    repository: 'https://github.com/badjiassane00-cmd/StoreManager-Pro',
   },
   {
     name: 'TERRA Web', type: 'Projet web', category: 'web', visual: 'terra', image: '/assets/projects/terra.webp',
