@@ -4,6 +4,7 @@ export interface Technology {
   name: string;
   icon: string;
   level?: TechnologyStatus;
+  proof?: string;
 }
 
 export interface TechnologyGroup {
@@ -30,39 +31,39 @@ export const technologyGroups: TechnologyGroup[] = [
   {
     category: 'Front-end',
     items: [
-      { name: 'HTML', icon: 'html5', level: 'mastered' },
-      { name: 'CSS', icon: 'css3', level: 'mastered' },
-      { name: 'JavaScript', icon: 'javascript', level: 'mastered' },
-      { name: 'TypeScript', icon: 'typescript', level: 'project' },
-      { name: 'Vue.js', icon: 'vuejs', level: 'project' },
-      { name: 'React', icon: 'react', level: 'learning' },
+      { name: 'HTML', icon: 'html5', level: 'mastered', proof: 'CampusRoom · Patrimoine' },
+      { name: 'CSS', icon: 'css3', level: 'mastered', proof: 'TERRA · CampusRoom · Patrimoine' },
+      { name: 'JavaScript', icon: 'javascript', level: 'mastered', proof: 'CampusRoom · Patrimoine · TERRA' },
+      { name: 'TypeScript', icon: 'typescript', level: 'project', proof: 'TERRA · Patrimoine' },
+      { name: 'Vue.js', icon: 'vuejs', level: 'learning', proof: 'Apprentissage front-end' },
+      { name: 'React', icon: 'react', level: 'project', proof: 'Patrimoine' },
     ],
   },
   {
     category: 'Back-end',
     items: [
-      { name: 'PHP', icon: 'php', level: 'mastered' },
-      { name: 'Laravel', icon: 'laravel', level: 'mastered' },
-      { name: 'Node.js', icon: 'nodejs', level: 'project' },
-      { name: 'Express.js', icon: 'expressjs', level: 'project' },
+      { name: 'PHP', icon: 'php', level: 'mastered', proof: 'CampusRoom · StoreManager Pro' },
+      { name: 'Laravel', icon: 'laravel', level: 'mastered', proof: 'CampusRoom · StoreManager Pro' },
+      { name: 'Node.js', icon: 'nodejs', level: 'project', proof: 'TERRA · Patrimoine' },
+      { name: 'Express.js', icon: 'expressjs', level: 'project', proof: 'Patrimoine' },
     ],
   },
   {
     category: 'Bases de données',
     items: [
-      { name: 'MySQL', icon: 'mysql', level: 'mastered' },
-      { name: 'PostgreSQL', icon: 'postgresql', level: 'project' },
+      { name: 'MySQL', icon: 'mysql', level: 'mastered', proof: 'CampusRoom · TERRA' },
+      { name: 'PostgreSQL', icon: 'postgresql', level: 'project', proof: 'Patrimoine · TERRA' },
     ],
   },
   {
     category: 'Outils & environnements',
     items: [
-      { name: 'Git', icon: 'git', level: 'mastered' },
-      { name: 'GitHub', icon: 'github', level: 'mastered' },
-      { name: 'GitLab', icon: 'gitlab', level: 'project' },
-      { name: 'Docker', icon: 'docker', level: 'project' },
-      { name: 'Postman', icon: 'postman', level: 'project' },
-      { name: 'Linux', icon: 'linux', level: 'project' },
+      { name: 'Git', icon: 'git', level: 'mastered', proof: 'Tous les projets' },
+      { name: 'GitHub', icon: 'github', level: 'mastered', proof: 'TERRA · Patrimoine · CampusRoom' },
+      { name: 'GitLab', icon: 'gitlab', level: 'project', proof: 'CampusRoom' },
+      { name: 'Docker', icon: 'docker', level: 'project', proof: 'CampusRoom · TERRA' },
+      { name: 'Postman', icon: 'postman', level: 'project', proof: 'API REST · CampusRoom' },
+      { name: 'Linux', icon: 'linux', level: 'project', proof: 'Environnement de travail local' },
     ],
   },
 ];

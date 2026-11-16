@@ -21,8 +21,14 @@ export function renderTechnologyGroups(groups: TechnologyGroup[]): void {
       return `
         <div class="technology-level">
           <span class="technology-level-label">${escapeHtml(levelLabels[level])}</span>
-          <div class="technology-level-list">${matches.map(({ name, icon }) => `
-            <div class="technology-card"><img class="technology-logo" src="/assets/technologies/${escapeHtml(icon)}.svg" alt="" loading="lazy" decoding="async" /><span class="technology-name">${escapeHtml(name)}</span></div>`).join('')}
+          <div class="technology-level-list">${matches.map(({ name, icon, proof }) => `
+            <div class="technology-card">
+              <div class="technology-card-main">
+                <img class="technology-logo" src="/assets/technologies/${escapeHtml(icon)}.svg" alt="" loading="lazy" decoding="async" />
+                <span class="technology-name">${escapeHtml(name)}</span>
+              </div>
+              ${proof ? `<small class="technology-proof">${escapeHtml(proof)}</small>` : ''}
+            </div>`).join('')}
           </div>
         </div>`;
     }).join('');
