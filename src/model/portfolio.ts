@@ -96,6 +96,7 @@ export const projects: Project[] = [
     contribution: 'Participation à la conception et au développement de la plateforme.',
     focus: ['Gestion du patrimoine', 'Conception et développement d’une plateforme web'],
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL'],
+    url: 'https://patrimoine-5o5f.onrender.com/',
     repository: 'https://github.com/badjiassane00-cmd/patrimoine',
   },
   {
